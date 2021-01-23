@@ -111,13 +111,13 @@ def get_users(id=None, user_name=None, full_name=None):
         else:
             query += 'WHERE full_name like (?) '
         args.append('%' + full_name + '%')
-        print(query)
     
     return query_db(query, args)
 
 def add_map(user_id, title, desc, map):
     sql = 'INSERT INTO map(title, desc, map) VALUES (?, ?, ?)'
     map_id = insert_db(sql, (title, desc, map))
+    print(map_id)
     sql = 'INSERT INTO user_map(user_ref, map_ref) VALUES (?, ?)'
     insert_db(sql, (user_id, map_id))
     return True
@@ -128,20 +128,21 @@ def get_maps(map_id=None, user_id=None, title=None):
     args = []
 
     if map_id is not None:
-        query += 'WHERE map.id = ?'
+        query += 'WHERE map.id = ? '
         args.append(map_id)
-
-    if user_id is not None:
+    elif user_id is not None:
         query += 'INNER JOIN ( '
         query += 'SELECT map_ref FROM user_map '
         query += 'WHERE user_ref = ? '
         args.append(user_id)
         query += 'GROUP BY map_ref ) '
-        query += 'ON id = map_ref '
+        query += 'ON map.id = map_ref '
 
     if title is not None:
-        query += 'WHERE map.title LIKE ?'
+        query += 'WHERE map.title LIKE ? '
         args.append("%" + title + "%")
+
+    print(query)
 
     return query_db(query, list(args))
 

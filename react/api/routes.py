@@ -33,7 +33,7 @@ from flask.cli import with_appcontext
 
 from . import db
 
-@current_app.route('/user', methods=["GET", "POST"])
+@current_app.route('/user', methods=['GET', 'POST'])
 def user():
     if request.method == "GET":
         id = request.args.get('id')
@@ -53,17 +53,24 @@ def user():
         db.add_user(user_name, full_name, pic, status)
         return jsonify(success=True)
 
-@current_app.route('/map', methods=["GET", "POST"])
+@current_app.route('/map', methods=['GET', 'POST'])
 def map():
-    if request.method == "GET":
+    if request.method == 'GET':
         map_id = request.args.get('id')
         user_id = request.args.get('user')
         title = request.args.get('title')
-        return db.get_maps(map_id, user_id, title)
-    elif request.method == "POST":
-        user = request.args.get('user')
-        title = request.args.get('title')
-        desc = request.args.get('desc')
-        map = request.args.get('map')
+        return {'maps':db.get_maps(map_id, user_id, title)}
+    elif request.method == 'POST':
+        req = request.get_json()
+        user = req['user']
+        title = req['title']
+        desc = None
+        if 'desc' in req:
+            desc = req['desc']
+        map = None
+        if 'map' in req:
+            map = str(req['map'])
+        else:
+            map = str({'nodes':[],'edges':[],'options':[]})
         db.add_map(user, title, desc, map)
         return jsonify(success=True)
