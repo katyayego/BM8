@@ -1,6 +1,7 @@
 import React, { lazy, Suspense } from 'react';
 import { BrowserRouter as Router, Switch, Route } from 'react-router-dom';
 import LandingPage from './pages/Home/LandingPage';
+import ProfilePage from './pages/Home/ProfilePage';
 
 const Navbar = lazy(() => import('./Components/Navbar/Navbar'));
 
@@ -25,6 +26,13 @@ const AppRouter = () => (
           exact
           path='/landingPage'
           component={LandingPage}
+        />
+      </Switch>
+      <Switch>
+        <Route
+          exact
+          path='/profilePage'
+          component={ProfilePage}
         />
       </Switch>
     </Suspense>
