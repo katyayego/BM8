@@ -27,7 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import json
-import uuid
+import random
 from datetime import datetime as dt
 
 from flask import current_app, g, render_template, request, send_file, jsonify
@@ -110,16 +110,24 @@ def map_add_node():
             edges = req['edges']
 
         map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
-        node = {
-            'id'   : uuid.uuid1().int,
-            'label': label,
-            'res'  : res
-        }
+        node = {}
+        if 'node' in req:
+            node = {
+                'id'   : req['node'],
+                'label': label,
+                'res'  : res
+            }
+        else:
+            node = {
+                'id'   : random.randint(0, 100000),
+                'label': label,
+                'res'  : res
+            }
         map['nodes'].append(node)
 
         for e in edges:
             edge = {
-                'id'  : uuid.uuid1().int,
+                'id'  : random.randint(0, 100000),
                 'from': e,
                 'to'  : node['id']
             }
@@ -167,6 +175,28 @@ def map_edit_node():
                 }
                 map['edges'].append(edge)
         
+        map = json.dumps(map)
+        db.update_map(map_id, user_id, map=map)
+        return jsonify(success=True)
+
+@current_app.route('/map/delete_node', methods=['POST'])
+def map_delete_node():
+    if request.method == 'POST':
+        req = request.get_json()
+        map_id = req['id']
+        user_id = req['user']
+        node_id = req['node']
+        map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
+
+        for n in map['nodes']:
+            if n['id'] == node_id:
+                map['nodes'].remove(n)
+                break
+
+        for e in map['edges']:
+            if e['from'] == node_id or e['to'] == node_id:
+                map['edges'].remove(e)
+
         map = json.dumps(map)
         db.update_map(map_id, user_id, map=map)
         return jsonify(success=True)
