@@ -35,7 +35,6 @@ from flask.cli import with_appcontext
 from . import db
 
 @current_app.route('/user', methods=['GET', 'POST'])
-@crossdomain(origin="*")
 def user():
     if request.method == "GET":
         id = request.args.get('id')
@@ -57,7 +56,6 @@ def user():
         return jsonify(success=True)
 
 @current_app.route('/map', methods=['GET', 'POST'])
-@crossdomain(origin="*")
 def map():
     if request.method == 'GET':
         map_id = request.args.get('id')
@@ -84,7 +82,6 @@ def map():
         return jsonify(success=True)
 
 @current_app.route('/map/update', methods=['POST'])
-@crossdomain(origin="*")
 def map_update():
     if request.method == 'POST':
         req = request.get_json()
@@ -100,7 +97,6 @@ def map_update():
         return jsonify(success=True)
 
 @current_app.route('/map/add_node', methods=['POST'])
-@crossdomain(origin="*")
 def map_add_node():
     if request.method == 'POST':
         req = request.get_json()
@@ -133,22 +129,22 @@ def map_add_node():
         return jsonify(success=True)
 
 @current_app.route('/map/edit_node', methods=['POST'])
-@crossdomain(origin="*")
 def map_edit_node():
     if request.method == 'POST':
         req = request.get_json()
         map_id = req['id']
         user_id = req['user']
         node_id = req['node']
-
+        """
         map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
 
         label = None
         if 'label' in req:
-            label = req['label']
+            map['nodes'][node_id]['label'] = req['label']
         res = None
         if 'res' in req:
             res = req['res']
+            map['nodes'][node_id]['res'] = req['res']
         edges = []
         if 'edges' in req:
             edges = req['edges']
@@ -170,4 +166,5 @@ def map_edit_node():
         map = json.dumps(map)
 
         db.update_map(map_id, user_id, map=map)
+        """
         return jsonify(success=True)
