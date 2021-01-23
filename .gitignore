@@ -1,0 +1,16 @@
+# Byte-copiled / optimized / DLL files
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Flask:
+instance/
+.webassets-cache
+
+# Sqlite:
+tmp/
+
+# Environments
+env/
+
+# See https://github.com/github/gitignore/blob/master/Python.gitignore
