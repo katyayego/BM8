@@ -27,6 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import json
+import uuid
 from datetime import datetime as dt
 
 from flask import current_app, g, render_template, request, send_file, jsonify
@@ -110,7 +111,7 @@ def map_add_node():
 
         map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
         node = {
-            'id'   : len(map['nodes']),
+            'id'   : uuid.uuid1().int,
             'label': label,
             'res'  : res
         }
@@ -118,7 +119,7 @@ def map_add_node():
 
         for e in edges:
             edge = {
-                'id'  : len(map['edges']),
+                'id'  : uuid.uuid1().int,
                 'from': e,
                 'to'  : node['id']
             }
@@ -135,36 +136,37 @@ def map_edit_node():
         map_id = req['id']
         user_id = req['user']
         node_id = req['node']
-        """
         map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
 
-        label = None
+        node_idx = 0
+        for n in map['nodes']:
+            if node_idx == n['id']:
+                break
+            node_idx += 1
+
         if 'label' in req:
-            map['nodes'][node_id]['label'] = req['label']
-        res = None
+            map['nodes'][node_idx]['label'] = req['label']
+
         if 'res' in req:
             res = req['res']
-            map['nodes'][node_id]['res'] = req['res']
-        edges = []
+            map['nodes'][node_idx]['res'] = req['res']
+
         if 'edges' in req:
             edges = req['edges']
+            for e in map['edges']:
+                if e['from'] not in edges:
+                    map['edges'].remove(e)
+                else:
+                    edges.remove(e['from'])
 
-        map['nodes'][node_id] {
-            'id'   : len(map['nodes']),
-            'label': label,
-            'res'  : res
-        }
-        map['nodes'].append(node)
-
-        for e in edges:
-            edge = {
-                'id'  : len(map['edges']),
-                'from': e,
-                'to'  : node['id']
-            }
-            map['edges'].append(edge)
+            for e in edges:
+                edge = {
+                    'id'  : len(map['edges']),
+                    'from': e,
+                    'to'  : node['id']
+                }
+                map['edges'].append(edge)
+        
         map = json.dumps(map)
-
         db.update_map(map_id, user_id, map=map)
-        """
         return jsonify(success=True)
