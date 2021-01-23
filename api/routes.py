@@ -62,7 +62,10 @@ def map():
         user_id = request.args.get('user')
         title = request.args.get('title')
         limit = request.args.get('limit')
-        return {'maps':db.get_maps(map_id, user_id, title, limit)}
+        maps = db.get_maps(map_id, user_id, title, limit)
+        for map in maps:
+            map['map'] = json.loads(map['map'])
+        return {'maps':maps}
     elif request.method == 'POST':
         req = request.get_json()
         user = req['user']
@@ -74,7 +77,7 @@ def map():
         if 'map' in req:
             map = str(req['map'])
         else:
-            map = str({'nodes':[],'edges':[],'options':[]})
+            map = json.dumps({'nodes':[],'edges':[],'options':[]})
         db.add_map(user, title, desc, map)
         return jsonify(success=True)
 
@@ -99,14 +102,17 @@ def map_add_node():
         req = request.get_json()
         map_id = req['id']
         user_id = req['user']
+        label = req['label']
         res = req['res']
-        edges = req['edges']
+        edges = []
+        if 'edges' in req:
+            edges = req['edges']
 
-        print(db.get_maps(map_id=map_id))
-        map = json.loads(db.get_maps(map_id=map_id))
+        map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
         node = {
-            'id' : len(map['nodes']),
-            'res': res
+            'id'   : len(map['nodes']),
+            'label': label,
+            'res'  : res
         }
         map['nodes'].append(node)
 
@@ -118,7 +124,6 @@ def map_add_node():
             }
             map['edges'].append(edge)
         map = json.dumps(map)
-        print(map)
 
-        # db.update_map(map_id, user_id, map=map)
+        db.update_map(map_id, user_id, map=map)
         return jsonify(success=True)
