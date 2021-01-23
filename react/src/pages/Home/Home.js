@@ -9,8 +9,6 @@ const Home = () => {
   const [network, setNetwork] = useState();
   const [graph, setGraph] = useState(null);
 
-  const [selectedNode, setSelectedNode] = useState();
-
   const addTitleRef = useRef();
   const addResourceRef = useRef();
   const addGroupRef = useRef();
@@ -39,8 +37,6 @@ const Home = () => {
       if (!nodes.length) return;
 
       const nodeId = nodes[0];
-      const selectedNode = graph.nodes.filter((node) => node.id === nodeId)[0];
-      // setSelectedNode(selectedNode);
       network.focus(nodeId,
         {
           locked: true,
