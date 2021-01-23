@@ -1,13 +1,16 @@
 import React from 'react';
-import {Grid, Card, Box, CardContent} from '@material-ui/core'
-
+import {Grid, Box} from '@material-ui/core'
+import MapCard from './MapCard';
+import getUserJson from '../getJson';
 
 const UserRoadmapsContent = () => {
+    const userData = getUserJson(1);
+    console.log(userData);
   return (
     <Box m={2} >
         <Grid container>
             <Grid container xs={12} spacing={2}>
-                <Grid item xs={4}>
+                {/* <Grid item xs={4}>
                     <Card >
                     <CardContent>
                     <p>Roadmap 1</p>
@@ -17,7 +20,7 @@ const UserRoadmapsContent = () => {
                 <Grid item xs={4}>
                     <Card >
                     <CardContent>
-                    <p>Roadmap 2</p>
+                    <p>Roadmap 2</p> 
                     </CardContent>
                     </Card>
                 </Grid>
@@ -27,7 +30,8 @@ const UserRoadmapsContent = () => {
                     <p>Roadmap 3</p>
                     </CardContent>
                     </Card>
-                </Grid>
+                </Grid> */}
+                <MapCard id= '1' name='Roadmap 1' description = 'this is the description'/>
             </Grid>
         </Grid>
     </Box>

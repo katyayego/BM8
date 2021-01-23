@@ -1,0 +1,23 @@
+import React from 'react'
+import {Grid, Card, Box, CardContent, CardHeader} from '@material-ui/core'
+import { Link } from 'react-router-dom'
+
+class MapCard extends React.Component {
+    render() {
+        const link = '/mapPage?id=' + this.props.id
+        return (
+        <Link to={link} style={{textDecoration: 'none'}}>
+        <Card>
+            <CardHeader title = {this.props.name}/>
+            <CardContent>
+                <p>{this.props.description}</p>
+            </CardContent>
+        </Card>
+        </Link>
+        );
+        
+    }
+}
+
+export default MapCard 
+

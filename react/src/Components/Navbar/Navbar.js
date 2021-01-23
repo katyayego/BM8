@@ -103,7 +103,7 @@ const Navbar = () => {
       <Link to='/profilePage' style={{ textDecoration: 'none' }}>
         <MenuItem onClick={handleMenuClose} style={{ color: 'black' }}>Profile</MenuItem>
       </Link>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
 
     </Menu>
   );
