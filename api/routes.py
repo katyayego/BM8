@@ -35,12 +35,14 @@ from flask.cli import with_appcontext
 from . import db
 
 @current_app.route('/user', methods=['GET', 'POST'])
+@crossdomain(origin="*")
 def user():
     if request.method == "GET":
         id = request.args.get('id')
         user_name = request.args.get('user_name')
         full_name = request.args.get('full_name')
-        return {'users':db.get_users(id, user_name, full_name)}
+        limit = request.args.get('limit')
+        return {'users':db.get_users(id, user_name, full_name, limit)}
     elif request.method == "POST":
         req = request.get_json()
         user_name = req['user_name']
@@ -55,12 +57,17 @@ def user():
         return jsonify(success=True)
 
 @current_app.route('/map', methods=['GET', 'POST'])
+@crossdomain(origin="*")
 def map():
     if request.method == 'GET':
         map_id = request.args.get('id')
         user_id = request.args.get('user')
         title = request.args.get('title')
-        return {'maps':db.get_maps(map_id, user_id, title)}
+        limit = request.args.get('limit')
+        maps = db.get_maps(map_id, user_id, title, limit)
+        for map in maps:
+            map['map'] = json.loads(map['map'])
+        return {'maps':maps}
     elif request.method == 'POST':
         req = request.get_json()
         user = req['user']
@@ -72,11 +79,12 @@ def map():
         if 'map' in req:
             map = str(req['map'])
         else:
-            map = str({'nodes':[],'edges':[],'options':[]})
+            map = json.dumps({'nodes':[],'edges':[],'options':[]})
         db.add_map(user, title, desc, map)
         return jsonify(success=True)
 
 @current_app.route('/map/update', methods=['POST'])
+@crossdomain(origin="*")
 def map_update():
     if request.method == 'POST':
         req = request.get_json()
@@ -92,19 +100,23 @@ def map_update():
         return jsonify(success=True)
 
 @current_app.route('/map/add_node', methods=['POST'])
+@crossdomain(origin="*")
 def map_add_node():
     if request.method == 'POST':
         req = request.get_json()
         map_id = req['id']
         user_id = req['user']
+        label = req['label']
         res = req['res']
-        edges = req['edges']
+        edges = []
+        if 'edges' in req:
+            edges = req['edges']
 
-        print(db.get_maps(map_id=map_id))
-        map = json.loads(db.get_maps(map_id=map_id))
+        map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
         node = {
-            'id' : len(map['nodes']),
-            'res': res
+            'id'   : len(map['nodes']),
+            'label': label,
+            'res'  : res
         }
         map['nodes'].append(node)
 
@@ -116,7 +128,46 @@ def map_add_node():
             }
             map['edges'].append(edge)
         map = json.dumps(map)
-        print(map)
 
-        # db.update_map(map_id, user_id, map=map)
+        db.update_map(map_id, user_id, map=map)
+        return jsonify(success=True)
+
+@current_app.route('/map/edit_node', methods=['POST'])
+@crossdomain(origin="*")
+def map_edit_node():
+    if request.method == 'POST':
+        req = request.get_json()
+        map_id = req['id']
+        user_id = req['user']
+        node_id = req['node']
+
+        map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
+
+        label = None
+        if 'label' in req:
+            label = req['label']
+        res = None
+        if 'res' in req:
+            res = req['res']
+        edges = []
+        if 'edges' in req:
+            edges = req['edges']
+
+        map['nodes'][node_id] {
+            'id'   : len(map['nodes']),
+            'label': label,
+            'res'  : res
+        }
+        map['nodes'].append(node)
+
+        for e in edges:
+            edge = {
+                'id'  : len(map['edges']),
+                'from': e,
+                'to'  : node['id']
+            }
+            map['edges'].append(edge)
+        map = json.dumps(map)
+
+        db.update_map(map_id, user_id, map=map)
         return jsonify(success=True)

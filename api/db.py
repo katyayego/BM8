@@ -86,8 +86,7 @@ def add_user(user_name, full_name, pic=None, status=None):
         sql = 'INSERT INTO user(user_name, full_name) VALUES (?, ?)'
         insert_db(sql, [user_name, full_name])
 
-# TODO: Add limit
-def get_users(id=None, user_name=None, full_name=None):
+def get_users(id=None, user_name=None, full_name=None, limit=None):
     query = 'SELECT * FROM user '
     args = []
     append_query = False
@@ -112,6 +111,10 @@ def get_users(id=None, user_name=None, full_name=None):
             query += 'WHERE full_name like (?) '
         args.append('%' + full_name + '%')
     
+    if limit is not None:
+        query += 'LIMIT (?) '
+        args.append(limit)
+    
     return query_db(query, args)
 
 def add_map(user_id, title, desc, map):
@@ -121,8 +124,7 @@ def add_map(user_id, title, desc, map):
     insert_db(sql, (user_id, map_id))
     return True
 
-# TODO: Add limit
-def get_maps(map_id=None, user_id=None, title=None):
+def get_maps(map_id=None, user_id=None, title=None, limit=None):
     query = 'SELECT * FROM map '
     args = []
 
@@ -140,6 +142,10 @@ def get_maps(map_id=None, user_id=None, title=None):
     if title is not None:
         query += 'WHERE map.title LIKE ? '
         args.append("%" + title + "%")
+
+    if limit is not None:
+        query += 'LIMIT (?) '
+        args.append(limit)
 
     return query_db(query, list(args))
 
