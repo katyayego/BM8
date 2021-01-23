@@ -26,6 +26,7 @@ OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
 OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
+import json
 from datetime import datetime as dt
 
 from flask import current_app, g, render_template, request, send_file, jsonify
@@ -73,4 +74,49 @@ def map():
         else:
             map = str({'nodes':[],'edges':[],'options':[]})
         db.add_map(user, title, desc, map)
+        return jsonify(success=True)
+
+@current_app.route('/map/update', methods=['POST'])
+def map_update():
+    if request.method == 'POST':
+        req = request.get_json()
+        map_id = req['id']
+        user_id = req['user']
+        title = None
+        if 'title' in req: 
+            title = req['title']
+        desc = None
+        if 'desc' in req:
+            desc = req['desc']
+        db.update_map(map_id, user_id, title=title, desc=desc)
+        return jsonify(success=True)
+
+@current_app.route('/map/add_node', methods=['POST'])
+def map_add_node():
+    if request.method == 'POST':
+        req = request.get_json()
+        map_id = req['id']
+        user_id = req['user']
+        res = req['res']
+        edges = req['edges']
+
+        print(db.get_maps(map_id=map_id))
+        map = json.loads(db.get_maps(map_id=map_id))
+        node = {
+            'id' : len(map['nodes']),
+            'res': res
+        }
+        map['nodes'].append(node)
+
+        for e in edges:
+            edge = {
+                'id'  : len(map['edges']),
+                'from': e,
+                'to'  : node['id']
+            }
+            map['edges'].append(edge)
+        map = json.dumps(map)
+        print(map)
+
+        # db.update_map(map_id, user_id, map=map)
         return jsonify(success=True)
