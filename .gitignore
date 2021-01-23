@@ -11,6 +11,6 @@ instance/
 tmp/
 
 # Environments
-venv/
+env/
 
 # See https://github.com/github/gitignore/blob/master/Python.gitignore
