@@ -135,7 +135,7 @@ def map_edit_node():
         map_id = req['id']
         user_id = req['user']
         node_id = req['node']
-
+        """
         map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
 
         label = None
@@ -166,4 +166,5 @@ def map_edit_node():
         map = json.dumps(map)
 
         db.update_map(map_id, user_id, map=map)
+        """
         return jsonify(success=True)
