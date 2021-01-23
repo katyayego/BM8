@@ -89,15 +89,11 @@ const Home = (props) => {
 
   return (
     <Box m={2}>
-      <Grid container spacing={3} direction='column' alignItems='stretch'>
-        <Grid item md='12'>
           <Card>
             <CardHeader title='Purdue University MA 162' />
-          </Card>
-        </Grid>
-      </Grid>
-      <Grid container spacing={3} justify='center' alignItems='stretch' direction='row'>
-        <Grid item md='3'>
+         
+      <Grid container spacing={2} justify='center' alignItems='stretch' direction='row'>
+        <Grid item xs='4'>
           <Card>
             <CardHeader title='Topics' />
             {graph
@@ -121,7 +117,7 @@ const Home = (props) => {
           </Card>
 
         </Grid>
-        <Grid item md='8'>
+        <Grid item xs='8'>
           <Card style={{ paddingBottom: '50px' }}>
             <CardHeader title='Roadmap' />
             {graph
@@ -135,6 +131,7 @@ const Home = (props) => {
           </Card>
         </Grid>
       </Grid>
+      </Card>
     </Box>
   );
 };
