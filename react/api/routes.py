@@ -33,7 +33,21 @@ from flask.cli import with_appcontext
 
 from . import db
 
-@current_app.route('/map')
+@current_app.route('/user', methods=["GET", "POST"])
+def user():
+    if request.method == "GET":
+        user_id = request.args.get('id')
+        name = request.args.get('name')
+        return db.get_users(user_id=user_id, name=name)
+    elif request.method == "POST":
+        name = request.args.get('name')
+        db.add_user(name)
+
+@current_app.route('/map', methods=["GET", "POST"])
 def map():
-    map_id = request.args.get('id')
-    return db.get_map(map_id)
+    db.add_map("1")
+    if request.method == "GET":
+        map_id = request.args.get('id')
+        return db.get_map(map_id)
+    elif request.method == "POST":
+        pass

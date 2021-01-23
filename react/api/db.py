@@ -66,20 +66,67 @@ def insert_db(insert, args=()):
     cur.close()
     return rv
 
-def get_map(map_id):
-    query = 'SELECT * FROM map '
-    query += 'WHERE map.id == ?'
-    args = [map_id]
-    return query_db(query, list(args))
+def add_user(user_name, full_name, pic=None, status=None):
+    if pic is not None and status is not None:
+        sql = 'INSERT INTO user(user_name, full_name, pic, status) VALUES (?, ?, ?, ?)'
+        insert_db(sql, [user_name, full_name, pic, status])
+    elif pic is not None:
+        sql = 'INSERT INTO user(user_name, full_name, pic) VALUES (?, ?, ?)'
+        insert_db(sql, [user_name, full_name, pic])
+    elif status is not None:
+        sql = 'INSERT INTO user(user_name, full_name, status) VALUES (?, ?, ?)'
+        insert_db(sql, [user_name, full_name, status])
+    else:
+        sql = 'INSERT INTO user(user_name, full_name) VALUES (?, ?)'
+        insert_db(sql, [user_name, full_name])
 
-def get_user_maps(user_id):
+# TODO: Add limit
+def get_users(id=None, user_name=None, full_name=None):
+    query = 'SELECT * FROM user '
+    args = []
+
+    if id is not None:
+        query += 'WHERE id = (?) '
+        args.append(id)
+
+    if user_name is not None:
+        query += 'WHERE user_name like (?) '
+        args.append("%" + user_name + "%")
+
+    if full_name is not None:
+        query += 'WHERE full_name like (?) '
+        args.append("%" + full_name + "%")
+    
+    return query_db(query, args)
+
+def add_map(user_id, title, desc, map):
+    sql = 'INSERT INTO map(title, desc, map) VALUES (?, ?, ?)'
+    map_id = insert_db(sql, (title, desc, map))
+    sql = 'INSERT INTO user_map(user_ref, map_ref) VALUES (?, ?)'
+    insert_db(sql, (user_id, map_id))
+    return True
+
+# TODO: Add limit
+def get_maps(map_id=None, user_id=None, title=None):
     query = 'SELECT * FROM map '
-    query += 'INNER JOIN ( '
-    query += 'SELECT map_ref FROM user_map '
-    query += 'WHERE user_ref = ? '
-    args = [user_id]
-    query += 'GROUP BY map_ref ) '
-    query += 'ON id = map_ref'
+    args = []
+
+    if map_id is not None:
+        query += 'WHERE map.id = ?'
+        args.append(map_id)
+
+    if user_id is not None:
+        query += 'INNER JOIN ( '
+        query += 'SELECT map_ref FROM user_map '
+        query += 'WHERE user_ref = ? '
+        args.append(user_id)
+        query += 'GROUP BY map_ref ) '
+        query += 'ON id = map_ref '
+
+    if title is not None:
+        query += 'WHERE map.title LIKE ?'
+        args.append("%" + title + "%")
+
     return query_db(query, list(args))
 
 @app.teardown_appcontext
