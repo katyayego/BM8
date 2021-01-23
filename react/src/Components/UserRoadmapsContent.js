@@ -1,9 +1,11 @@
 import React from 'react';
 import {Grid, Box} from '@material-ui/core'
 import MapCard from './MapCard';
-
+import getUserJson from '../getJson';
 
 const UserRoadmapsContent = () => {
+    const userData = getUserJson(1);
+    console.log(userData);
   return (
     <Box m={2} >
         <Grid container>
