@@ -39,7 +39,7 @@ def user():
         id = request.args.get('id')
         user_name = request.args.get('user_name')
         full_name = request.args.get('full_name')
-        return db.get_users(id, user_name, full_name)
+        return {'users':db.get_users(id, user_name, full_name)}
     elif request.method == "POST":
         req = request.get_json()
         user_name = req['user_name']
@@ -61,8 +61,9 @@ def map():
         title = request.args.get('title')
         return db.get_maps(map_id, user_id, title)
     elif request.method == "POST":
-        user_id = request.args.get('user')
+        user = request.args.get('user')
         title = request.args.get('title')
         desc = request.args.get('desc')
         map = request.args.get('map')
-        db.add_map(user_id, title, desc, map)
+        db.add_map(user, title, desc, map)
+        return jsonify(success=True)
