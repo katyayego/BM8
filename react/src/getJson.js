@@ -18,18 +18,24 @@ async function getUserJson(userId) {
 }
 
 // Pass in an id, gets that map from the database. If no id is passed, returns all maps
-async function getMapJson(mapId) {
+async function getMapJson(mapId = null, userId = null) {
+    let params = '?';
+    let first = true;
+
+    if (mapId != null) {
+        params += `id=${mapId}`
+    }
+
+    if (userId != null) {
+        params += (first) ? '' : '&';
+        params += `user=${userId}`
+    }
+
     // Replace link w actual server once deployed
     let response;
-    if (mapId != null) {
-        response = await fetch(`http://localhost:5000/map?id=${mapId}`, {
-            headers: { 'Access-Control-Allow-Origin': '*' }
-        });
-    } else {
-        response = await fetch(`http://localhost:5000/map`, {
-            headers: { 'Access-Control-Allow-Origin': '*' }
-        });
-    }
+    response = await fetch('http://localhost:5000/map' + params, {
+        headers: { 'Access-Control-Allow-Origin': '*' }
+    });
     const data = await response.json();
     return data;
 }
