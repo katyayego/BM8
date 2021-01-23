@@ -33,6 +33,8 @@ const Home = () => {
     });
   }, []);
 
+  // useEffect(() => { console.log(selectedNode); }, [selectedNode]);
+
   useEffect(() => {
     console.log(graph);
   }, [graph]);
@@ -51,6 +53,8 @@ const Home = () => {
             easingFunction: 'easeInOutQuad'
           }
         });
+      const selectedNode = nodes.filter((node) => (node.id === nodeId));
+      // setSelectedNode(selectedNode);
     }
   };
 
@@ -165,20 +169,18 @@ const Home = () => {
               <Button>Add</Button>
             </div>
           </Card>
-          {
+          {/* {selectedNode
+            ? (
+              <Card>
+                <CardHeader title='Controls' />
+                <div>
+                  <p>{`id: ${selectedNode.id}, label: ${selectedNode.label}`}</p>
+                </div>
+              </Card>
+              )
 
-          }
-          <Card>
-            <CardHeader title='Controls' />
-            <div>
-              <AddTab
-                titleRef={addTitleRef}
-                resourceRef={addResourceRef}
-                groupRef={addGroupRef}
-              />
-              <Button>Add</Button>
-            </div>
-          </Card>
+            : null} */}
+
         </Grid>
         <Grid item md='8'>
           <Card style={{ paddingBottom: '50px' }}>
