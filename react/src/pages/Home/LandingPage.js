@@ -1,5 +1,7 @@
 import React from 'react';
-import {Grid, Card, Box, CardHeader, CardContent} from '@material-ui/core'
+import {Grid, Card, Box, CardHeader} from '@material-ui/core'
+import UserRoadmapsContent from '../../Components/UserRoadmapsContent';
+import ExploreContent from '../../Components/ExploreContent';
 
 
 const LandingPage = () => {
@@ -9,25 +11,13 @@ const LandingPage = () => {
         <Grid item xs="7" >
             <Card>
                 <CardHeader title={'My Roadmaps'}/>
-                <Box m={2}>
-                <Card >
-                    <CardContent>
-                    <p>Roadmap 1</p>
-                    </CardContent>
-                </Card>
-                </Box>
+                    <UserRoadmapsContent/>
             </Card>
         </Grid>
         <Grid item xs="5">
             <Card>
             <CardHeader title={'Explore'}/>
-            <Box m={2}>
-                <Card >
-                    <CardContent>
-                    <p>Explore 1</p>
-                    </CardContent>
-                </Card>
-                </Box>
+                <ExploreContent/>
             </Card>
         </Grid>
         </Grid>
