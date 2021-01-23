@@ -16,7 +16,6 @@ const ProfilePage = () => {
                         <UserRoadmapsContent />
                     </Card>
                 </Grid>
-
             </Grid>
         </Box>
     );
