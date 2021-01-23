@@ -14,7 +14,6 @@ const LandingPage = () => {
             console.log(users['users'][0].full_name);
         })
     }, [])
-    
 
   return (
     <Box m={2} >
