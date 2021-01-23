@@ -11,6 +11,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AcUnitIcon from '@material-ui/icons/AcUnit';
 import { Button } from '@material-ui/core';
+import {Link} from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -92,8 +93,11 @@ const Navbar = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
+      <Link to='/profilePage' style={{textDecoration: 'none'}}>
+      <MenuItem onClick={handleMenuClose} style={{color: 'black'}}>Profile</MenuItem>
+      </Link>
       <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+
     </Menu>
   );
 
@@ -101,9 +105,11 @@ const Navbar = () => {
     <div className={classes.grow}>
       <AppBar position='static'>
         <Toolbar>
-          <IconButton aria-label='show 4 new mails' color='inherit'>
+          <Link to='/' style={{textDecoration: 'none', color:"inherit"}}>
+          <IconButton  color='inherit'>
             <AcUnitIcon />
           </IconButton>
+          </Link>
           <Typography className={classes.title} variant='h6' noWrap>
             Cool-Name
           </Typography>

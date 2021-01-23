@@ -18,14 +18,14 @@ const AppRouter = () => (
         <Route
           exact
           path='/'
-          component={Home}
+          component={LandingPage}
         />
       </Switch>
       <Switch>
         <Route
           exact
-          path='/landingPage'
-          component={LandingPage}
+          path='/mapPage'
+          component={Home}
         />
       </Switch>
       <Switch>
