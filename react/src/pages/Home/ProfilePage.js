@@ -5,7 +5,7 @@ import UserProfileContent from '../../Components/UserProfileContent';
 
 const ProfilePage = () => {
     return (
-        <Box m={2} border={1}>
+        <Box m={2}>
             <Grid container spacing={2} justify="center">
                 <Grid item xs="3">
                     <UserProfileContent />
