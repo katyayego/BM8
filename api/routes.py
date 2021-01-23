@@ -40,7 +40,8 @@ def user():
         id = request.args.get('id')
         user_name = request.args.get('user_name')
         full_name = request.args.get('full_name')
-        return {'users':db.get_users(id, user_name, full_name)}
+        limit = request.args.get('limit')
+        return {'users':db.get_users(id, user_name, full_name, limit)}
     elif request.method == "POST":
         req = request.get_json()
         user_name = req['user_name']
@@ -60,7 +61,8 @@ def map():
         map_id = request.args.get('id')
         user_id = request.args.get('user')
         title = request.args.get('title')
-        return {'maps':db.get_maps(map_id, user_id, title)}
+        limit = request.args.get('limit')
+        return {'maps':db.get_maps(map_id, user_id, title, limit)}
     elif request.method == 'POST':
         req = request.get_json()
         user = req['user']
