@@ -7,8 +7,8 @@ CREATE TABLE user (
     created TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     user_name TEXT NOT NULL,
     full_name TEXT NOT NULL,
-    pic TEXT NOT NULL,
-    status TEXT NOT NULL
+    pic TEXT,
+    status TEXT
 );
 
 CREATE TABLE map (

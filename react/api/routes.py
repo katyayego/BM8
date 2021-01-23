@@ -28,7 +28,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 
 from datetime import datetime as dt
 
-from flask import current_app, g, render_template, request, send_file
+from flask import current_app, g, render_template, request, send_file, jsonify
 from flask.cli import with_appcontext
 
 from . import db
@@ -36,18 +36,33 @@ from . import db
 @current_app.route('/user', methods=["GET", "POST"])
 def user():
     if request.method == "GET":
-        user_id = request.args.get('id')
-        name = request.args.get('name')
-        return db.get_users(user_id=user_id, name=name)
+        id = request.args.get('id')
+        user_name = request.args.get('user_name')
+        full_name = request.args.get('full_name')
+        return db.get_users(id, user_name, full_name)
     elif request.method == "POST":
-        name = request.args.get('name')
-        db.add_user(name)
+        req = request.get_json()
+        user_name = req['user_name']
+        full_name = req['full_name']
+        pic = None
+        if 'pic' in req:
+            pic = req['pic']
+        status = None
+        if 'status' in req:
+            status = req['status']
+        db.add_user(user_name, full_name, pic, status)
+        return jsonify(success=True)
 
 @current_app.route('/map', methods=["GET", "POST"])
 def map():
-    db.add_map("1")
     if request.method == "GET":
         map_id = request.args.get('id')
-        return db.get_map(map_id)
+        user_id = request.args.get('user')
+        title = request.args.get('title')
+        return db.get_maps(map_id, user_id, title)
     elif request.method == "POST":
-        pass
+        user_id = request.args.get('user')
+        title = request.args.get('title')
+        desc = request.args.get('desc')
+        map = request.args.get('map')
+        db.add_map(user_id, title, desc, map)
