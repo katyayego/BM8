@@ -86,7 +86,6 @@ def add_user(user_name, full_name, pic=None, status=None):
         sql = 'INSERT INTO user(user_name, full_name) VALUES (?, ?)'
         insert_db(sql, [user_name, full_name])
 
-# TODO: Add limit
 def get_users(id=None, user_name=None, full_name=None, limit=None):
     query = 'SELECT * FROM user '
     args = []
@@ -125,7 +124,6 @@ def add_map(user_id, title, desc, map):
     insert_db(sql, (user_id, map_id))
     return True
 
-# TODO: Add limit
 def get_maps(map_id=None, user_id=None, title=None, limit=None):
     query = 'SELECT * FROM map '
     args = []
