@@ -4,7 +4,9 @@ import { Box } from '@material-ui/core';
 import { Card } from '@material-ui/core';
 import { CardHeader } from '@material-ui/core';
 
-const Home = () => {
+class Home extends React.Component {
+  id = this.props.match.params;
+  render() {
   return (
     <Box m={2}>
       <Grid container spacing={3} direction="column" alignItems="stretch">
@@ -30,6 +32,7 @@ const Home = () => {
       </Grid>
     </Box>
   );
-};
+  }
+}
 
 export default Home;
