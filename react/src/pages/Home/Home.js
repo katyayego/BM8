@@ -7,7 +7,9 @@ import AddTab from './Components/controlTabs/AddTab';
 
 const Home = () => {
   const [network, setNetwork] = useState();
-  const [graph, setGraph] = useState(null);
+  const [graph, setGraph] = useState();
+
+  const [selectedNode, setSelectedNode] = useState();
 
   const addTitleRef = useRef();
   const addResourceRef = useRef();
@@ -16,11 +18,11 @@ const Home = () => {
   useEffect(() => {
     setGraph({
       nodes: [
-        { id: 1, label: 'Node 1', title: 'node 1 tootip text', group: 0 },
-        { id: 2, label: 'Node 2', title: 'node 2 tootip text', group: 0 },
-        { id: 3, label: 'Node 3', title: 'node 3 tootip text', group: 0 },
-        { id: 4, label: 'Node 4', title: 'node 4 tootip text', group: 0 },
-        { id: 5, label: 'Node 5', title: 'node 5 tootip text', group: 0 }
+        { id: 1, label: 'Node 1', group: 0 },
+        { id: 2, label: 'Node 2', group: 0 },
+        { id: 3, label: 'Node 3', group: 0 },
+        { id: 4, label: 'Node 4', group: 0 },
+        { id: 5, label: 'Node 5', group: 0 }
       ],
       edges: [
         { from: 1, to: 2 },
@@ -30,6 +32,10 @@ const Home = () => {
       ]
     });
   }, []);
+
+  useEffect(() => {
+    console.log(graph);
+  }, [graph]);
 
   const events = {
     click: function (event) {
@@ -58,13 +64,54 @@ const Home = () => {
           easingFunction: 'easeInOutQuad'
         }
       });
-    // setSelectedNode(null);
   };
 
   const handleAddNode = (nodeData, callback) => {
-    console.log(addTitleRef.current.value);
-    nodeData.label = addTitleRef.current.value;
-    callback(nodeData);
+    if (!addTitleRef.current || !addGroupRef.current || !addResourceRef.current) {
+      console.log('one is null');
+      callback();
+    }
+    const title = addTitleRef.current.value;
+    const group = addGroupRef.current.value;
+    const resource = addResourceRef.current.value;
+
+    const newNode = { ...nodeData, label: title, group: group, resource: resource };
+    setGraph((prevGraph) => ({
+      nodes: [...prevGraph.nodes, newNode],
+      edges: [...prevGraph.edges]
+    }));
+  };
+
+  // const handleDeleteNode = (nodeData, callback) => {
+  //   setGraph((prevGraph) => {
+  //     const nodeId = nodeData.nodes[0];
+  //     const newNodes = prevGraph.nodes.filter(node => (node.id !== nodeId));
+  //     const newEdges = prevGraph.edges.filter(edge => {
+  //       for (let i = 0; i < nodeData.edges.length; i++) {
+  //         if (nodeData.edges[i] === edge.id) return false;
+  //       }
+
+  //       return true;
+  //     });
+  //     network.network.setData(newNodes, newEdges);
+  //     return { nodes: [...newNodes], edges: [...newEdges] };
+  //   });
+
+  //   const handleAddEdge = () => {
+
+  //   };
+  // };
+
+  const handleEditNode = (nodeData, callback) => {
+    if (!addTitleRef.current || !addGroupRef.current || !addResourceRef.current) {
+      callback();
+    }
+    const title = addTitleRef.current.value;
+    const group = addGroupRef.current.value;
+    const resource = addResourceRef.current.value;
+
+    const newNode = { ...nodeData, label: title, group: group, resource: resource };
+    callback(newNode);
   };
 
   const options = {
@@ -74,8 +121,9 @@ const Home = () => {
     manipulation: {
       enabled: true,
       addNode: handleAddNode,
-      deleteNode: (nodeData, callback) => { console.log(nodeData); },
-      editNode: (nodeData, callback) => { console.log(nodeData); }
+      deleteNode: (nodeData, callback) => { callback(nodeData); },
+      editNode: handleEditNode,
+      deleteEdge: (edgeData, callback) => { callback(edgeData); }
     },
     edges: {
       color: '#000000'
@@ -108,7 +156,6 @@ const Home = () => {
 
           <Card>
             <CardHeader title='Controls' />
-            {/* <p>{`id: ${selectedNode.id}, label: ${selectedNode.label}, title: ${selectedNode.title}`}</p> */}
             <div>
               <AddTab
                 titleRef={addTitleRef}
@@ -118,7 +165,20 @@ const Home = () => {
               <Button>Add</Button>
             </div>
           </Card>
+          {
 
+          }
+          <Card>
+            <CardHeader title='Controls' />
+            <div>
+              <AddTab
+                titleRef={addTitleRef}
+                resourceRef={addResourceRef}
+                groupRef={addGroupRef}
+              />
+              <Button>Add</Button>
+            </div>
+          </Card>
         </Grid>
         <Grid item md='8'>
           <Card style={{ paddingBottom: '50px' }}>
