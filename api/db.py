@@ -34,9 +34,9 @@ import click
 
 def init_app(app):
     app.teardown_appcontext(close_db)
-    app.cli.add_command(init_db_command)
+    app.cli.add_command(create_db_command)
 
-def init_db():
+def create_db():
     db = get_db()
 
     with app.open_resource('./schema.sql') as f:
@@ -117,7 +117,6 @@ def get_users(id=None, user_name=None, full_name=None):
 def add_map(user_id, title, desc, map):
     sql = 'INSERT INTO map(title, desc, map) VALUES (?, ?, ?)'
     map_id = insert_db(sql, (title, desc, map))
-    print(map_id)
     sql = 'INSERT INTO user_map(user_ref, map_ref) VALUES (?, ?)'
     insert_db(sql, (user_id, map_id))
     return True
@@ -142,9 +141,36 @@ def get_maps(map_id=None, user_id=None, title=None):
         query += 'WHERE map.title LIKE ? '
         args.append("%" + title + "%")
 
-    print(query)
-
     return query_db(query, list(args))
+
+def update_map(map_id, user_id, title=None, desc=None, map=None):
+    sql = 'UPDATE map SET '
+    args = []
+
+    first = True
+    if title is not None:
+        sql += 'title = ? '
+        args.append(title)
+        first = False
+    
+    if desc is not None:
+        if not first:
+            sql += ', '
+        else:
+            first = False
+        sql += 'desc = ? '
+        args.append(desc)
+
+    if map is not None:
+        if not first:
+            sql += ', '
+        else:
+            first = False
+        sql += 'map = ? '
+        args.append(map)
+
+    insert_db(sql, args)
+    return True
 
 @app.teardown_appcontext
 def close_db(e=None):
@@ -153,9 +179,9 @@ def close_db(e=None):
     if db is not None:
         db.close()
 
-@click.command('init-db')
+@click.command('create-db')
 @with_appcontext
-def init_db_command():
+def create_db_command():
     """Clear the existing data and create new tables."""
-    init_db()
+    create_db()
     click.echo('Initialized the database.')
