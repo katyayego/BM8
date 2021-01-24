@@ -124,7 +124,7 @@ const Navbar = () => {
           <div className={classes.search}>
             <form onSubmit={handleSearch}>
               <div className={classes.searchIcon}>
-                <SearchIcon />
+                <SearchIcon color="secondary"/>
               </div>
               <InputBase
                 placeholder='Search…'
@@ -139,23 +139,23 @@ const Navbar = () => {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Link to='/signup' style={{ textDecoration: 'none', color: "inherit" }}>
-              <IconButton color='inherit'>
+            <Link to='/signup' style={{ textDecoration: 'none', color: "secondary" }}>
+              <IconButton color='secondary'>
                 Sign Up
             </IconButton>
             </Link>
-            <Link to='/login' style={{ textDecoration: 'none', color: "inherit" }}>
-              <IconButton color='inherit'>
+            <Link to='/login' style={{ textDecoration: 'none', color: "secondary" }}>
+              <IconButton color='secondary'>
                 Log In
             </IconButton>
             </Link>
-            <Link to='/profilePage' style={{ textDecoration: 'none', color: "inherit" }}>
+            <Link to='/profilePage' style={{ textDecoration: 'none', color: "secondary" }}>
               <IconButton
                 edge='end'
                 aria-label='account of current user'
                 aria-controls={menuId}
                 aria-haspopup='true'
-                color='inherit'
+                color='secondary'
               >
                 <AccountCircle />
               </IconButton>
