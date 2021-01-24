@@ -122,9 +122,87 @@ async function postMap(userId, title, desc, map) {
     return data;
 }
 
+async function postNode(mapId, userId, nodeId, label, res, edges) {
+    let params = {
+        'id': mapId,
+        'user': userId,
+        'label': label,
+        'res': res
+    }
+
+    if (nodeId != null) {
+        params['nodeId'] = nodeId
+    }
+
+    if (edges != null) {
+        params['edges'] = edges
+    }
+
+    // Replace link w actual server once deployed
+    let response;
+    response = await fetch('http://localhost:5000/map/add_node', {
+        method: "POST",
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(params)
+    });
+    const data = await response.json();
+    return data;
+}
+
+async function postNodeEdit(mapId, userId, nodeId, label, res, edges) {
+    let params = {
+        'id': mapId,
+        'user': userId,
+        'node': nodeId
+    }
+
+    if (label != null) {
+        params['label'] = label
+    }
+
+    if (res != null) {
+        params['res'] = rest
+    }
+
+    if (edges != null) {
+        params['edges'] = edges
+    }
+
+    // Replace link w actual server once deployed
+    let response;
+    response = await fetch('http://localhost:5000/map/edit_node', {
+        method: "POST",
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(params)
+    });
+    const data = await response.json();
+    return data;
+}
+
+async function postNodeDelete(mapId, userId, nodeId) {
+    let params = {
+        'id': mapId,
+        'user': userId,
+        'node': nodeId
+    }
+
+    // Replace link w actual server once deployed
+    let response;
+    response = await fetch('http://localhost:5000/map/delete_node', {
+        method: "POST",
+        headers: { 'content-type': 'application/json' },
+        body: JSON.stringify(params)
+    });
+    const data = await response.json();
+    return data;
+}
+
 export {
     getUser,
     postUser,
     getMap,
     postMap,
+    postNode,
+    postNodeEdit,
+    postNodeDelete,
 }
