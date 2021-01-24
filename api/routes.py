@@ -106,9 +106,6 @@ def map_add_node():
         label = req['label']
         res = req['res']
         group = req['group']
-        edges = []
-        if 'edges' in req:
-            edges = req['edges']
 
         map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
         node = {}
@@ -127,15 +124,23 @@ def map_add_node():
                 'res'  : res
             }
         map['nodes'].append(node)
+        map = json.dumps(map)
 
-        for e in edges:
-            edge = {
-                'id'   : uuid.uuid1(),
-                'from' : e,
-                'to'   : node['id'],
-                'value': 1
-            }
-            map['edges'].append(edge)
+        db.update_map(map_id, user_id, map=map)
+        return jsonify(success=True)
+
+@current_app.route('/map/add_edge', methods=['POST'])
+def map_add_node():
+    if request.method == 'POST':
+        req = request.get_json()
+        map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
+        edge = {
+            'id'   : req['id'],
+            'from' : req['from'],
+            'to'   : req['to'],
+            'value': 1
+        }
+        map['edges'].append(edge)
         map = json.dumps(map)
 
         db.update_map(map_id, user_id, map=map)
@@ -166,23 +171,6 @@ def map_edit_node():
         if 'group' in req:
             group = req['group']
             map['nodes'][node_idx]['group'] = req['group']
-
-        if 'edges' in req:
-            edges = req['edges']
-            for e in map['edges']:
-                if e['from'] not in edges:
-                    map['edges'].remove(e)
-                else:
-                    edges.remove(e['from'])
-
-            for e in edges:
-                edge = {
-                    'id'   : uuid.uuid1(),
-                    'from' : e,
-                    'to'   : map['nodes'][node_idx]['id'],
-                    'value': 1
-                }
-                map['edges'].append(edge)
         
         map = json.dumps(map)
         db.update_map(map_id, user_id, map=map)
