@@ -174,7 +174,7 @@ def map_edit_node():
                 edge = {
                     'id'  : uuid.uuid1(),
                     'from': e,
-                    'to'  : node['id']
+                    'to'  : map['nodes'][node_idx]['id']
                 }
                 map['edges'].append(edge)
         

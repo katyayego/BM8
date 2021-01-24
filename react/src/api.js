@@ -190,13 +190,16 @@ async function postNodeDelete (mapId, userId, nodeId) {
   let response;
   response = await fetch('http://localhost:5000/map/delete_node', {
     method: 'POST',
-    headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': 'null' },
+    headers: {
+      'content-type': 'application/json',
+      'Access-Control-Allow-Origin': 'null',
+      'Access-Control-Allow-Methods': 'GET, POST'
+    },
     body: JSON.stringify(params)
   });
   const data = await response.json();
   return data;
 }
-
 
 export {
   getUser,
