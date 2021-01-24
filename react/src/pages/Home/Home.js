@@ -1,34 +1,54 @@
 import './Home.css';
 import React, { useState, useEffect, useRef } from 'react';
 
-import { Grid, Box, Card, CardHeader, Button } from '@material-ui/core';
+import { Grid, Box, Card, CardHeader, Button, CardContent } from '@material-ui/core';
 import Graph from 'react-graph-vis';
 import AddTab from './Components/controlTabs/AddTab';
 
+import Modal from '@material-ui/core/Modal';
+import Backdrop from '@material-ui/core/Backdrop';
+import Fade from '@material-ui/core/Fade';
+import { makeStyles } from '@material-ui/core/styles';
+import { getMap, postNode, postNodeDelete, postNodeEdit } from '../../api';
+
+const useStyles = makeStyles((theme) => ({
+  modal: {
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center'
+  },
+  paper: {
+    backgroundColor: theme.palette.background.paper,
+    border: '2px solid #000',
+    boxShadow: theme.shadows[5],
+    padding: theme.spacing(2, 4, 3)
+  }
+}));
+
 const Home = (props) => {
-  const {id} = props.match.params;
+  const classes = useStyles();
+
+  const { id } = props.match.params;
   const [network, setNetwork] = useState();
-  const [graph, setGraph] = useState(null);
+  const [graph, setGraph] = useState();
+
+  const [selectedNode, setSelectedNode] = useState();
 
   const addTitleRef = useRef();
   const addResourceRef = useRef();
   const addGroupRef = useRef();
 
   useEffect(() => {
-    setGraph({
-      nodes: [
-        { id: 1, label: 'Node 1', title: 'node 1 tootip text', group: 0 },
-        { id: 2, label: 'Node 2', title: 'node 2 tootip text', group: 0 },
-        { id: 3, label: 'Node 3', title: 'node 3 tootip text', group: 0 },
-        { id: 4, label: 'Node 4', title: 'node 4 tootip text', group: 0 },
-        { id: 5, label: 'Node 5', title: 'node 5 tootip text', group: 0 }
-      ],
-      edges: [
-        { from: 1, to: 2 },
-        { from: 1, to: 3 },
-        { from: 2, to: 4 },
-        { from: 2, to: 5 }
-      ]
+    const graph = getMap(id).then((res) => {
+      const mapObj = res.maps[0];
+      const newGraph = {
+        id: mapObj.id,
+        title: mapObj.title,
+        desc: mapObj.desc,
+        nodes: mapObj.map.nodes,
+        edges: mapObj.map.edges
+      };
+      setGraph(newGraph);
     });
   }, []);
 
@@ -41,11 +61,13 @@ const Home = (props) => {
       network.focus(nodeId,
         {
           locked: true,
-          animation: { // -------------------> can be a boolean too!
+          animation: {
             duration: 1000,
             easingFunction: 'easeInOutQuad'
           }
         });
+      const selectedNode = graph.nodes.filter((node) => (node.id === nodeId));
+      setSelectedNode(selectedNode[0]);
     }
   };
 
@@ -59,13 +81,52 @@ const Home = (props) => {
           easingFunction: 'easeInOutQuad'
         }
       });
-    // setSelectedNode(null);
   };
 
   const handleAddNode = (nodeData, callback) => {
-    console.log(addTitleRef.current.value);
-    nodeData.label = addTitleRef.current.value;
-    callback(nodeData);
+    if (!addTitleRef.current || !addGroupRef.current || !addResourceRef.current) {
+      callback();
+    }
+    const title = addTitleRef.current.value;
+    const group = addGroupRef.current.value;
+    const resource = addResourceRef.current.value;
+
+    const newNode = { ...nodeData, label: title, group: group, resource: resource };
+    callback(newNode);
+    postNode(graph.id, 2, newNode.id, newNode.label, newNode.resource, null);
+  };
+
+  // const handleDeleteNode = (nodeData, callback) => {
+  //   setGraph((prevGraph) => {
+  //     const nodeId = nodeData.nodes[0];
+  //     const newNodes = prevGraph.nodes.filter(node => (node.id !== nodeId));
+  //     const newEdges = prevGraph.edges.filter(edge => {
+  //       for (let i = 0; i < nodeData.edges.length; i++) {
+  //         if (nodeData.edges[i] === edge.id) return false;
+  //       }
+
+  //       return true;
+  //     });
+  //     network.network.setData(newNodes, newEdges);
+  //     return { nodes: [...newNodes], edges: [...newEdges] };
+  //   });
+
+  //   const handleAddEdge = () => {
+
+  //   };
+  // };
+
+  const handleEditNode = (nodeData, callback) => {
+    if (!addTitleRef.current || !addGroupRef.current || !addResourceRef.current) {
+      callback();
+    }
+    const title = addTitleRef.current.value;
+    const group = addGroupRef.current.value;
+    const resource = addResourceRef.current.value;
+
+    const newNode = { ...nodeData, label: title, group: group, resource: resource };
+    callback(newNode);
+    postNodeEdit(graph.id, 2, nodeData.id, title, group, resource);
   };
 
   const options = {
@@ -75,8 +136,16 @@ const Home = (props) => {
     manipulation: {
       enabled: true,
       addNode: handleAddNode,
-      deleteNode: (nodeData, callback) => { console.log(nodeData); },
-      editNode: (nodeData, callback) => { console.log(nodeData); }
+      deleteNode: (nodeData, callback) => {
+        callback(nodeData);
+        postNodeDelete(graph.id, 2, nodeData.id)
+          .then(() => { alert('SUCEESS'); })
+          .catch(() => { alert('ERROR'); });
+      },
+      editNode: handleEditNode,
+      deleteEdge: (edgeData, callback) => {
+        callback(edgeData);
+      }
     },
     edges: {
       color: '#000000'
@@ -84,41 +153,68 @@ const Home = (props) => {
     nodes: {
       shape: 'dot'
     },
-    height: '500px'
+    autoResize: true,
+    height: '450px'
   };
 
   return (
     <Box m={2}>
-          <Card>
-            <CardHeader title='Purdue University MA 162' />
-         
+      <CardHeader title='Purdue University MA 162' />
+
       <Grid container spacing={2} justify='center' alignItems='stretch' direction='row'>
         <Grid item xs='4'>
-          <Card>
-            <CardHeader title='Topics' />
-            {graph
-              ? graph.nodes.map((node) => (
-                <p key={node.id} style={{ cursor: 'pointer' }} onClick={() => handleTopicClick(node.id)}>{node.label}</p>
-                ))
-              : <p>Loading...</p>}
-          </Card>
+          <Box my={1}>
+            <Card>
+              <CardHeader title='Controls' />
+              <CardContent>
+                <AddTab
+                  titleRef={addTitleRef}
+                  resourceRef={addResourceRef}
+                  groupRef={addGroupRef}
+                />
+              </CardContent>
+            </Card>
+          </Box>
+          <Box my={1}>
+            <Card>
+              <CardHeader title='Topics' />
+              <CardContent>
+                {graph
+                  ? graph.nodes.map((node) => (
+                    <p key={node.id} style={{ cursor: 'pointer' }} onClick={() => handleTopicClick(node.id)}>{node.label}</p>
+                    ))
+                  : <p>Loading...</p>}
+              </CardContent>
+            </Card>
+          </Box>
+          {selectedNode
+            ? (
+              <Modal
+                aria-labelledby='transition-modal-title'
+                aria-describedby='transition-modal-description'
+                className={classes.modal}
+                open={selectedNode}
+                onClose={() => { setSelectedNode(null); }}
+                closeAfterTransition
+                BackdropComponent={Backdrop}
+                BackdropProps={{
+                  timeout: 500
+                }}
+              >
+                <Fade in={selectedNode}>
+                  <div className={classes.paper}>
+                    <h2 id='transition-modal-title'>Resources - {selectedNode.label}</h2>
+                    <p id='transition-modal-description'>{selectedNode.resource}</p>
+                  </div>
+                </Fade>
+              </Modal>
+              )
 
-          <Card>
-            <CardHeader title='Controls' />
-            {/* <p>{`id: ${selectedNode.id}, label: ${selectedNode.label}, title: ${selectedNode.title}`}</p> */}
-            <div>
-              <AddTab
-                titleRef={addTitleRef}
-                resourceRef={addResourceRef}
-                groupRef={addGroupRef}
-              />
-              <Button>Add</Button>
-            </div>
-          </Card>
+            : null}
 
         </Grid>
         <Grid item xs='8'>
-          <Card style={{ paddingBottom: '50px' }}>
+          <Card style={{ paddingBottom: '40px' }}>
             <CardHeader title='Roadmap' />
             {graph
               ? <Graph
@@ -131,7 +227,6 @@ const Home = (props) => {
           </Card>
         </Grid>
       </Grid>
-      </Card>
     </Box>
   );
 };

@@ -1,22 +1,12 @@
-import React, { useRef } from 'react';
+import React from 'react';
+import TextField from '@material-ui/core/TextField';
 
 const AddTab = (props) => {
   return (
     <form>
-      <p>Add Child</p>
-
-      <div>
-        <label>Title</label>
-        <input type='text' ref={props.titleRef} />
-      </div>
-      <div>
-        <label>group</label>
-        <input type='text' ref={props.groupRef} />
-      </div>
-      <div>
-        <label>resource</label>
-        <input type='text' ref={props.resourceRef} />
-      </div>
+      <TextField inputRef={props.titleRef} id='standard-basic' label='Title' />
+      <TextField inputRef={props.groupRef} id='standard-basic' label='Group' />
+      <TextField inputRef={props.resourceRef} id='standard-basic' label='Resource' />
     </form>
   );
 };
