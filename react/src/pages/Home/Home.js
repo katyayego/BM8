@@ -1,7 +1,7 @@
 import './Home.css';
 import React, { useState, useEffect, useRef } from 'react';
 
-import { Grid, Box, Card, CardHeader, Button, CardContent } from '@material-ui/core';
+import { Grid, Box, Card, CardHeader, Button, CardContent, Divider, Typography } from '@material-ui/core';
 import Graph from 'react-graph-vis';
 import AddTab from './Components/controlTabs/AddTab';
 
@@ -33,19 +33,16 @@ const Home = (props) => {
   const { id } = props.match.params;
   console.log(props.match.params);
   const [network, setNetwork] = useState();
-  const [graph, setGraph] = useState({
-    id: id,
-    title: 'No Title',
-    desc: 'No Desc',
-    nodes: [],
-    edges: []
-  });
+  const x = useRef(false);
+  const [graph, setGraph] = useState(null);
 
   const [selectedNode, setSelectedNode] = useState();
 
   const addTitleRef = useRef();
   const addResourceRef = useRef();
   const addGroupRef = useRef();
+
+  const mounted = useRef(false);
 
   useEffect(() => {
     const graph = getMap(id, null, null, null).then((res) => {
@@ -59,9 +56,16 @@ const Home = (props) => {
         edges: mapObj.map.edges
       };
       setGraph(newGraph);
-    });
+    })
+      .then(() => { alert('SUCCESS'); })
+      .catch(() => { alert('Error'); });
   }, []);
 
+  useEffect(() => { console.log(graph); }, [graph]);
+
+  const setGraph2 = (newGraph) => {
+    setGraph(newGraph);
+  };
   const events = {
     click: function (event) {
       const { nodes, edges } = event;
@@ -106,26 +110,6 @@ const Home = (props) => {
     postNode(graph.id, 2, newNode.id, newNode.label, newNode.resource, null);
   };
 
-  // const handleDeleteNode = (nodeData, callback) => {
-  //   setGraph((prevGraph) => {
-  //     const nodeId = nodeData.nodes[0];
-  //     const newNodes = prevGraph.nodes.filter(node => (node.id !== nodeId));
-  //     const newEdges = prevGraph.edges.filter(edge => {
-  //       for (let i = 0; i < nodeData.edges.length; i++) {
-  //         if (nodeData.edges[i] === edge.id) return false;
-  //       }
-
-  //       return true;
-  //     });
-  //     network.network.setData(newNodes, newEdges);
-  //     return { nodes: [...newNodes], edges: [...newEdges] };
-  //   });
-
-  //   const handleAddEdge = () => {
-
-  //   };
-  // };
-
   const handleEditNode = (nodeData, callback) => {
     if (!addTitleRef.current || !addGroupRef.current || !addResourceRef.current) {
       callback();
@@ -136,7 +120,8 @@ const Home = (props) => {
 
     const newNode = { ...nodeData, label: title, group: group, resource: resource };
     callback(newNode);
-    postNodeEdit(graph.id, 2, newNode.id + '', title, group, resource)
+    console.log(newNode.id);
+    postNodeEdit(graph.id, 2, newNode.id, title, resource, null)
       .then(() => { alert('SUCCESS'); })
       .catch(() => { alert('ERRIR'); });
   };
@@ -170,14 +155,15 @@ const Home = (props) => {
 
   return (
     <Box m={2}>
-      <CardHeader title='Purdue University MA 162' />
-
+      <CardHeader title='Purdue University MA 162' titleTypographyProps={{variant:'h4' }}/>
+      <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
       <Grid container spacing={2} justify='center' alignItems='stretch' direction='row'>
         <Grid item xs='4'>
-          <Box my={1}>
-            <Card>
-              <CardHeader title='Controls' />
+          <Box my={1} boxShadow={4}>
+            <Card style={{backgroundColor:'#f2ebdd'}}>
               <CardContent>
+              <Typography variant="h5">Controls</Typography>
+                <Divider/>
                 <AddTab
                   titleRef={addTitleRef}
                   resourceRef={addResourceRef}
@@ -186,10 +172,11 @@ const Home = (props) => {
               </CardContent>
             </Card>
           </Box>
-          <Box my={1}>
-            <Card>
-              <CardHeader title='Topics' />
+          <Box my={1} boxShadow={4}>
+            <Card style={{backgroundColor:'#f2ebdd'}}>
               <CardContent>
+              <Typography variant="h5">Topics</Typography>
+                <Divider/>
                 {graph
                   ? graph.nodes.map((node) => (
                     <p key={node.id} style={{ cursor: 'pointer' }} onClick={() => handleTopicClick(node.id)}>{node.label}</p>
@@ -225,8 +212,10 @@ const Home = (props) => {
 
         </Grid>
         <Grid item xs='8'>
-          <Card style={{ paddingBottom: '40px' }}>
-            <CardHeader title='Roadmap' />
+          <Box boxShadow={4}>
+          <Card style={{ paddingBottom: '40px', backgroundColor:'#f2ebdd' }}>
+            <CardContent><Typography variant="h5">Map</Typography>
+                <Divider/>
             {graph
               ? <Graph
                   graph={graph}
@@ -235,7 +224,9 @@ const Home = (props) => {
                   getNetwork={(net) => { setNetwork(net); }}
                 />
               : <p>Loading...</p>}
+              </CardContent>
           </Card>
+          </Box>
         </Grid>
       </Grid>
     </Box>

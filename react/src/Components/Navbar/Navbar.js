@@ -118,8 +118,8 @@ const Navbar = () => {
               <img src={roadTripLogo} style={{ height: '40px', width: '40px'}}/>
             </IconButton>
           </Link>
-          <Typography className={classes.title} variant='h6' noWrap>
-            Road Trip
+          <Typography className={classes.title} variant='h6' noWrap color="secondary">
+            RoadTrip
           </Typography>
           <div className={classes.search}>
             <form onSubmit={handleSearch}>

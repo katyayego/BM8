@@ -63,6 +63,7 @@ async function postUser (userName, fullName, pic, status) {
 
 // Pass in an id, gets that map from the database. If no id is passed, returns all maps
 async function getMap (mapId, userId, title, limit) {
+  console.log('GETMAPPPP');
   let params = '?';
   let first = true;
 
@@ -93,7 +94,10 @@ async function getMap (mapId, userId, title, limit) {
   response = await fetch('http://localhost:5000/map' + params, {
     headers: { 'Access-Control-Allow-Origin': '*' }
   });
-  const data = await response.json();
+  const data = await response.json().then((value) => {
+    console.log(value);
+    return value;
+  });
   return data;
 }
 
@@ -123,6 +127,8 @@ async function postMap (userId, title, desc, map) {
 }
 
 async function postNode (mapId, userId, nodeId, label, res, group, edges) {
+  console.log('POSTNODE');
+
   const params = {
     id: mapId,
     user: userId,
@@ -132,7 +138,7 @@ async function postNode (mapId, userId, nodeId, label, res, group, edges) {
   };
 
   if (nodeId != null) {
-    params.nodeId = nodeId;
+    params.node = nodeId;
   }
 
   if (edges != null) {
@@ -146,11 +152,15 @@ async function postNode (mapId, userId, nodeId, label, res, group, edges) {
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(params)
   });
-  const data = await response.json();
+  const data = await response.json().then((value) => {
+    console.log(value);
+    return value;
+  });
   return data;
 }
 
 async function postNodeEdit (mapId, userId, nodeId, label, res, edges) {
+  console.log('POSTNODEEDIT');
   const params = {
     id: mapId,
     user: userId,
