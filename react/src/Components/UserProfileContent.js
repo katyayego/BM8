@@ -1,14 +1,14 @@
 import React, {useEffect, useState} from 'react';
 import { Grid, Card, CardHeader, Avatar } from '@material-ui/core'
 import remy from "../images/hamster.png";
-import getUserJson from '../getJson';
+import {getUser} from '../api';
 
 const UserProfileContent = () => {
     const [name, setName] = useState(null);
     const [status, setStatus] = useState(null);  
    
     useEffect(() => {
-        const userData = getUserJson(1);
+        const userData = getUser(1);
         userData.then((users) => {
             setName(users['users'][0].full_name);
             setStatus(users['users'][0].status);
