@@ -1,7 +1,7 @@
 import React, {useEffect, useState} from 'react';
 import { Grid, Card, CardHeader, Avatar } from '@material-ui/core'
 import remy from "../images/hamster.png";
-import getUserJson from '../getJson';
+import {getUserJson} from '../getJson';
 
 const UserProfileContent = () => {
     const [name, setName] = useState(null);

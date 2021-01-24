@@ -17,6 +17,7 @@ async function getUserJson(userId) {
     return data;
 }
 
+
 // Pass in an id, gets that map from the database. If no id is passed, returns all maps
 async function getMapJson(mapId = null, userId = null) {
     let params = '?';
@@ -40,4 +41,4 @@ async function getMapJson(mapId = null, userId = null) {
     return data;
 }
 
-export default getUserJson;
+export {getUserJson, getMapJson,}
