@@ -99,7 +99,7 @@ async function getMap (mapId, userId, title, limit) {
 
 async function postMap (userId, title, desc, map) {
   const params = {
-    userId: userId,
+    user: userId,
     title: title
   };
 
@@ -118,6 +118,7 @@ async function postMap (userId, title, desc, map) {
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(params)
   });
+  console.log("FINISHED")
   const data = await response.json();
   return data;
 }

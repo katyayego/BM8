@@ -26,13 +26,14 @@ const AddMapForm = () => {
     const descRef = useRef();
     const titleRef = useRef();
 
-    async function handleSubmit(event) {
+    function handleSubmit(event) {
         event.preventDefault();
         const description = descRef.current.value;
         const title = titleRef.current.value;
         
         // Current User ID = 1
-        postMap(1, title, description);
+        postMap(1, title, description, null);
+        window.location = "/profilePage";
     }
 
     return (
@@ -60,7 +61,7 @@ const AddMapForm = () => {
                                     id="title"
                                     label="Title"
                                     name="title"
-                                    titleRef={titleRef}
+                                    inputRef={titleRef}
                                 />
                             </Grid>
                         </Grid>
@@ -73,7 +74,7 @@ const AddMapForm = () => {
                                     id="description"
                                     label="Description"
                                     name="description"
-                                    descRef={descRef}
+                                    inputRef={descRef}
                                 />
                             </Grid>
                         </Grid>
