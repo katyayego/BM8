@@ -3,15 +3,17 @@ import { Grid, Card, Box, CardContent } from '@material-ui/core'
 import { useLocation } from 'react-router-dom'
 import {getMap} from '../api';
 import MapCard from './MapCard';
+import {withRouter} from 'react-router';
 
-const SearchContent = () => {
+const SearchContent = (props) => {
     let location = useLocation();
     let params = new URLSearchParams(location.search);
 
     // Request maps with params.get('value')
 
-    const [map, setMaps] = useState([]);  
-   
+    const [map, setMaps] = useState([]);
+    // console.log(props.match)
+  
     useEffect(() => {
         const mapData = getMap(null, null, params.get('value'), null);
         mapData.then((maps) => {
@@ -20,7 +22,6 @@ const SearchContent = () => {
             console.log(maps)
         })
     }, [])
-    console.log(map)
     return (
         
         <Box m={2} >

@@ -88,6 +88,7 @@ const Navbar = () => {
   const handleSearch = (event) => {
     event.preventDefault();
     history.push(`/searchPage?value=${searchValue}`)
+    window.location.reload();
   }
 
   const menuId = 'primary-search-account-menu';
