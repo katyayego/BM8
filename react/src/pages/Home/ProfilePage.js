@@ -2,6 +2,7 @@ import React,  {useEffect, useState} from 'react';
 import { Grid,  Box, CardHeader, Paper, Divider } from '@material-ui/core'
 import UserRoadmapsContent from '../../Components/UserRoadmapsContent';
 import UserProfileContent from '../../Components/UserProfileContent';
+import AddMapForm from '../../Components/AddMapForm';
 import {getUser} from '../../api';
 
 const ProfilePage = () => {
@@ -20,6 +21,7 @@ const ProfilePage = () => {
             <Grid container spacing={2} justify="center">
                 <Grid item xs="3">
                     <UserProfileContent />
+                    <AddMapForm/>
                 </Grid>
                 <Divider orientation="vertical" flexItem varient = "inset"/>
                 <Grid item xs="6" >
