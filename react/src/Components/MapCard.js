@@ -9,7 +9,7 @@ class MapCard extends React.Component {
         const link = '/mapPage?id=' + this.props.id
         return (
         <Link to={link} style={{textDecoration: 'none'}}>
-        <Card>
+        <Card style={{backgroundColor:'#f2ebdd'}}> 
             <CardHeader title = {this.props.name}/>
             <CardContent>
                 <p>{this.props.description}</p>

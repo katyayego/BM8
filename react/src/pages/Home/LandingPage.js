@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import {Grid, Card, Box, CardHeader} from '@material-ui/core'
+import {Grid, Card, Box, CardHeader, Paper, Divider} from '@material-ui/core'
 import UserRoadmapsContent from '../../Components/UserRoadmapsContent';
 import ExploreContent from '../../Components/ExploreContent';
 import {getUser} from '../../api';
@@ -19,16 +19,17 @@ const LandingPage = () => {
     <Box m={2} >
         <Grid container spacing={2}>
         <Grid item xs="7" >
-            <Card>
+            <Paper  elevation={0} style={{background: "#b0c77e"}}>
                 <CardHeader title={name ? name + '\'s Roadmaps': 'My Roadmaps'}/>
                     <UserRoadmapsContent/>
-            </Card>
+            </Paper>
         </Grid>
-        <Grid item xs="5">
-            <Card>
+        <Divider orientation="vertical" flexItem varient = "inset"/>
+        <Grid item xs="4">
+            <Paper elevation={0} style={{background: "#b0c77e"}}>
             <CardHeader title={'Explore'}/>
                 <ExploreContent/>
-            </Card>
+            </Paper>
         </Grid>
         </Grid>
     </Box>

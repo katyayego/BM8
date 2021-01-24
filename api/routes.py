@@ -162,6 +162,10 @@ def map_edit_node():
             res = req['res']
             map['nodes'][node_idx]['res'] = req['res']
 
+        if 'group' in req:
+            group = req['group']
+            map['nodes'][node_idx]['group'] = req['group']
+
         if 'edges' in req:
             edges = req['edges']
             for e in map['edges']:
