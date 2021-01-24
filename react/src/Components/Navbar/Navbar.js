@@ -9,7 +9,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import Menu from '@material-ui/core/Menu';
 import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
-import AcUnitIcon from '@material-ui/icons/AcUnit';
+// import AcUnitIcon from '@material-ui/icons/AcUnit';
+import roadTripLogo from '../../images/compassLogo.png'
 import { Button } from '@material-ui/core';
 import { useHistory, Link } from 'react-router-dom'
 
@@ -112,9 +113,9 @@ const Navbar = () => {
     <div className={classes.grow}>
       <AppBar position='static'>
         <Toolbar>
-          <Link to='/' style={{ textDecoration: 'none', color: "secondary" }}>
-            <IconButton color='secondary'>
-              <AcUnitIcon />
+          <Link to='/' style={{ textDecoration: 'none', color: "inherit" }}>
+            <IconButton color='inherit'>
+              <img src={roadTripLogo} style={{ height: '40px', width: '40px'}}/>
             </IconButton>
           </Link>
           <Typography className={classes.title} variant='h6' noWrap color="secondary">

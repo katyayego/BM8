@@ -23,36 +23,27 @@ const AppRouter = () => (
           path='/'
           component={LandingPage}
         />
-      </Switch>
-      <Switch>
+
         <Route
           exact
-          path='/mapPage'
+          path='/mapPage/:id'
           component={Home}
         />
-      </Switch>
-      <Switch>
         <Route
           exact
           path='/profilePage'
           component={ProfilePage}
         />
-      </Switch>
-      <Switch>
         <Route
           exact
           path='/searchPage'
           component={SearchPage}
         />
-      </Switch>
-      <Switch>
         <Route
           exact
           path='/signUp'
           component={SignUp}
         />
-      </Switch>
-      <Switch>
         <Route
           exact
           path='/logIn'

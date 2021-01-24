@@ -10,8 +10,10 @@ const LandingPage = () => {
     useEffect(() => {
         const userData = getUser(1);
         userData.then((users) => {
+            if(users['users'].size > 0) {
             setName(users['users'][0].full_name);
             console.log(users['users'][0].full_name);
+            }
         })
     }, [])
 
@@ -22,7 +24,7 @@ const LandingPage = () => {
             <Paper  elevation={0} style={{background: '#f2ebdd'}}>
                 <CardHeader title={name ? name + '\'s Maps': 'Loading Maps'} titleTypographyProps={{variant:'h4' }}/>
                 <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
-                    <UserRoadmapsContent/>
+                    {name ? <UserRoadmapsContent/> : <p> Please sign in or create an account</p>}
             </Paper>
         </Grid>
         <Divider orientation="vertical" flexItem varient = "inset"/>
@@ -30,7 +32,7 @@ const LandingPage = () => {
             <Paper elevation={0} style={{background: '#f2ebdd'}}>
             <CardHeader title={'Explore'} titleTypographyProps={{variant:'h4' }}/>
             <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
-                <ExploreContent/>
+                {/* <ExploreContent/> */}
             </Paper>
         </Grid>
         </Grid>

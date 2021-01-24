@@ -14,3 +14,4 @@ tmp/
 env/
 
 # See https://github.com/github/gitignore/blob/master/Python.gitignore
+scripts/start_api.sh

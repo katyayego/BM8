@@ -50,7 +50,9 @@ const useStyles = makeStyles((theme) => ({
 export default function SignUp() {
     const classes = useStyles();
     // Can change to actually log people in
-    //   const usernameRef = useRef();
+      const usernameRef = useRef();
+      const passwordRef = useRef();
+
     //   const firstNameRef = useRef();
     //   const lastNameRef = useRef();
 
@@ -70,7 +72,10 @@ export default function SignUp() {
         event.preventDefault();
         window.location = "/";
 
-        // ..code to submit form to backend here...
+        // event.preventDefault();
+        // const username = usernameRef.current.value;
+        // const password = password.current.value;
+        // postUser(username, first + " " + last)
     }
     return (
         <Container component="main" maxWidth="xs">
