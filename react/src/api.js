@@ -122,9 +122,10 @@ async function postMap(userId, title, desc, map) {
     return data;
 }
 
+
 export {
     getUser,
     postUser,
     getMap,
     postMap,
-}
+};

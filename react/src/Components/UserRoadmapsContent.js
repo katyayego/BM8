@@ -1,6 +1,6 @@
 import React from 'react';
 import { Grid, Card, Box, CardContent } from '@material-ui/core'
-import getMapJson from '../getJson';
+import {getMap} from '../api';
 import MapCard from './MapCard';
 
 const UserRoadmapsContent = () => {

@@ -138,18 +138,27 @@ const Navbar = () => {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Button color='inherit'>Signup</Button>
-            <Button color='inherit'>Login</Button>
-            <IconButton
-              edge='end'
-              aria-label='account of current user'
-              aria-controls={menuId}
-              aria-haspopup='true'
-              onClick={handleProfileMenuOpen}
-              color='inherit'
-            >
-              <AccountCircle />
+            <Link to='/signup' style={{ textDecoration: 'none', color: "inherit" }}>
+              <IconButton color='inherit'>
+                Sign Up
             </IconButton>
+            </Link>
+            <Link to='/login' style={{ textDecoration: 'none', color: "inherit" }}>
+              <IconButton color='inherit'>
+                Log In
+            </IconButton>
+            </Link>
+            <Link to='/profilePage' style={{ textDecoration: 'none', color: "inherit" }}>
+              <IconButton
+                edge='end'
+                aria-label='account of current user'
+                aria-controls={menuId}
+                aria-haspopup='true'
+                color='inherit'
+              >
+                <AccountCircle />
+              </IconButton>
+            </Link>
           </div>
         </Toolbar>
       </AppBar>
