@@ -112,18 +112,18 @@ const Navbar = () => {
     <div className={classes.grow}>
       <AppBar position='static'>
         <Toolbar>
-          <Link to='/' style={{ textDecoration: 'none', color: "inherit" }}>
-            <IconButton color='inherit'>
+          <Link to='/' style={{ textDecoration: 'none', color: "secondary" }}>
+            <IconButton color='secondary'>
               <AcUnitIcon />
             </IconButton>
           </Link>
-          <Typography className={classes.title} variant='h6' noWrap>
+          <Typography className={classes.title} variant='h6' noWrap color="secondary">
             Cool-Name
           </Typography>
           <div className={classes.search}>
             <form onSubmit={handleSearch}>
               <div className={classes.searchIcon}>
-                <SearchIcon />
+                <SearchIcon color="secondary"/>
               </div>
               <InputBase
                 placeholder='Search…'
@@ -138,15 +138,15 @@ const Navbar = () => {
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
-            <Button color='inherit'>Signup</Button>
-            <Button color='inherit'>Login</Button>
+            <Button color='secondary'>Signup</Button>
+            <Button color='secondary'>Login</Button>
             <IconButton
               edge='end'
               aria-label='account of current user'
               aria-controls={menuId}
               aria-haspopup='true'
               onClick={handleProfileMenuOpen}
-              color='inherit'
+              color='secondary'
             >
               <AccountCircle />
             </IconButton>
