@@ -27,7 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import json
-import uuid
+import random
 from datetime import datetime as dt
 
 from flask import current_app, g, render_template, request, send_file, jsonify
@@ -118,7 +118,7 @@ def map_add_node():
             }
         else:
             node = {
-                'id'   : uuid.uuid1(),
+                'id'   : random.randint(0,100000),
                 'label': label,
                 'group': group,
                 'res'  : res
@@ -130,12 +130,12 @@ def map_add_node():
         return jsonify(success=True)
 
 @current_app.route('/map/add_edge', methods=['POST'])
-def map_add_node():
+def map_add_edge():
     if request.method == 'POST':
         req = request.get_json()
-        map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
+        map = json.loads(db.get_maps(map_id=req['id'], limit=1)[0]['map'])
         edge = {
-            'id'   : req['id'],
+            'id'   : random.randint(0,100000),
             'from' : req['from'],
             'to'   : req['to'],
             'value': 1
@@ -143,7 +143,7 @@ def map_add_node():
         map['edges'].append(edge)
         map = json.dumps(map)
 
-        db.update_map(map_id, user_id, map=map)
+        db.update_map(req['id'], req['user'], map=map)
         return jsonify(success=True)
 
 @current_app.route('/map/edit_node', methods=['POST'])
