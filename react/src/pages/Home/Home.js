@@ -48,7 +48,7 @@ const Home = (props) => {
   const addGroupRef = useRef();
 
   useEffect(() => {
-    const graph = getMap(id).then((res) => {
+    const graph = getMap(id, null, null, null).then((res) => {
       const mapObj = res.maps[0];
       if (!mapObj) return;
       const newGraph = {
