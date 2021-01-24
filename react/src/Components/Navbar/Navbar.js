@@ -115,16 +115,18 @@ const Navbar = () => {
         <Toolbar>
           <Link to='/' style={{ textDecoration: 'none', color: "inherit" }}>
             <IconButton color='inherit'>
-              <img src={roadTripLogo} style={{ height: '40px', width: '40px'}}/>
+              <img src={roadTripLogo} style={{ height: '40px', width: '40px' }} />
             </IconButton>
           </Link>
-          <Typography className={classes.title} variant='h6' noWrap color="secondary">
-            RoadTrip
+          <Link to='/' style={{ textDecoration: 'none', color: "inherit" }}>
+            <Typography className={classes.title} variant='h4' noWrap color="secondary">
+              RoadTrip
           </Typography>
+          </Link>
           <div className={classes.search}>
             <form onSubmit={handleSearch}>
               <div className={classes.searchIcon}>
-                <SearchIcon color="secondary"/>
+                <SearchIcon color="secondary" />
               </div>
               <InputBase
                 placeholder='Search…'
@@ -157,7 +159,7 @@ const Navbar = () => {
                 aria-haspopup='true'
                 color='secondary'
               >
-                <AccountCircle />
+                <AccountCircle style={{ height: '35px', width: '35px' }} />
               </IconButton>
             </Link>
           </div>
