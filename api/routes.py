@@ -65,6 +65,8 @@ def map():
         limit = request.args.get('limit')
         maps = db.get_maps(map_id, user_id, title, limit)
         for map in maps:
+            print(map)
+            print(map['map'])
             map['map'] = json.loads(map['map'])
         return {'maps':maps}
     elif request.method == 'POST':
@@ -74,11 +76,16 @@ def map():
         desc = None
         if 'desc' in req:
             desc = req['desc']
-        map = None
-        if 'map' in req:
-            map = str(req['map'])
-        else:
-            map = json.dumps({'nodes':[],'edges':[],'options':[]})
+        map = {"nodes":[],"edges":[]}
+        if 'nodes' in req:
+            for n in req['nodes']:
+                n['id'] = random.randint(0,100000)
+                map['nodes'].append(n)
+        if 'edges' in req:
+            for e in req['edges']:
+                e['id'] = random.randint(0,100000)
+                map['edges'].append(e)
+        map = json.dumps(map)
         db.add_map(user, title, desc, map)
         return jsonify(success=True)
 

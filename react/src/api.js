@@ -27,10 +27,9 @@ async function getUser (userId, userName, fullName, limit) {
     params += `limit=${limit}`;
   }
 
-  // Replace link w actual server once deployed
   let response;
   response = await fetch('http://localhost:5000/user', {
-    headers: { 'Access-Control-Allow-Origin': 'null' }
+    headers: { 'Access-Control-Allow-Origin': '*' }
   });
   const data = await response.json();
   return data;
@@ -50,7 +49,6 @@ async function postUser (userName, fullName, pic, status) {
     params.status = status;
   }
 
-  // Replace link w actual server once deployed
   let response;
   response = await fetch('http://localhost:5000/user', {
     method: 'POST',
@@ -63,7 +61,6 @@ async function postUser (userName, fullName, pic, status) {
 
 // Pass in an id, gets that map from the database. If no id is passed, returns all maps
 async function getMap (mapId, userId, title, limit) {
-  console.log('GETMAPPPP');
   let params = '?';
   let first = true;
 
@@ -89,7 +86,6 @@ async function getMap (mapId, userId, title, limit) {
     params += `limit=${limit}`;
   }
 
-  // Replace link w actual server once deployed
   let response;
   response = await fetch('http://localhost:5000/map' + params, {
     headers: { 'Access-Control-Allow-Origin': '*' }
@@ -101,7 +97,7 @@ async function getMap (mapId, userId, title, limit) {
   return data;
 }
 
-async function postMap (userId, title, desc, map) {
+async function postMap (userId, title, desc, nodes, edges) {
   const params = {
     user: userId,
     title: title
@@ -111,11 +107,14 @@ async function postMap (userId, title, desc, map) {
     params.desc = desc;
   }
 
-  if (map != null) {
-    params.map = map;
+  if (nodes != null) {
+    params.nodes = nodes;
   }
 
-  // Replace link w actual server once deployed
+  if (edges != null) {
+    params.edges = edges;
+  }
+
   let response;
   response = await fetch('http://localhost:5000/map', {
     method: 'POST',
@@ -140,7 +139,6 @@ async function postNode (mapId, userId, nodeId, label, res, group) {
     params.node = nodeId;
   }
 
-  // Replace link w actual server once deployed
   let response;
   response = await fetch('http://localhost:5000/map/add_node', {
     method: 'POST',
@@ -166,7 +164,6 @@ async function postNodeEdit (mapId, userId, nodeId, label, res) {
     params.res = res;
   }
 
-  // Replace link w actual server once deployed
   let response;
   response = await fetch('http://localhost:5000/map/edit_node', {
     method: 'POST',
@@ -184,7 +181,6 @@ async function postNodeDelete (mapId, userId, nodeId) {
     node: nodeId
   };
 
-  // Replace link w actual server once deployed
   let response;
   response = await fetch('http://localhost:5000/map/delete_node', {
     method: 'POST',
@@ -196,14 +192,13 @@ async function postNodeDelete (mapId, userId, nodeId) {
 }
 
 async function postEdge (mapId, userId, from, to) {
-  const edge = {
+  const params = {
     id: mapId,
     user: userId,
     from: from,
     to: to
   };
 
-  // Replace link w actual server once deployed
   let response;
   response = await fetch('http://localhost:5000/map/add_edge', {
     method: 'POST',
