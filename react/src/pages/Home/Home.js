@@ -33,19 +33,16 @@ const Home = (props) => {
   const { id } = props.match.params;
   console.log(props.match.params);
   const [network, setNetwork] = useState();
-  const [graph, setGraph] = useState({
-    id: id,
-    title: 'No Title',
-    desc: 'No Desc',
-    nodes: [],
-    edges: []
-  });
+  const x = useRef(false);
+  const [graph, setGraph] = useState(null);
 
   const [selectedNode, setSelectedNode] = useState();
 
   const addTitleRef = useRef();
   const addResourceRef = useRef();
   const addGroupRef = useRef();
+
+  const mounted = useRef(false);
 
   useEffect(() => {
     const graph = getMap(id, null, null, null).then((res) => {
@@ -59,9 +56,16 @@ const Home = (props) => {
         edges: mapObj.map.edges
       };
       setGraph(newGraph);
-    });
+    })
+      .then(() => { alert('SUCCESS'); })
+      .catch(() => { alert('Error'); });
   }, []);
 
+  useEffect(() => { console.log(graph); }, [graph]);
+
+  const setGraph2 = (newGraph) => {
+    setGraph(newGraph);
+  };
   const events = {
     click: function (event) {
       const { nodes, edges } = event;
@@ -106,26 +110,6 @@ const Home = (props) => {
     postNode(graph.id, 2, newNode.id, newNode.label, newNode.resource, null);
   };
 
-  // const handleDeleteNode = (nodeData, callback) => {
-  //   setGraph((prevGraph) => {
-  //     const nodeId = nodeData.nodes[0];
-  //     const newNodes = prevGraph.nodes.filter(node => (node.id !== nodeId));
-  //     const newEdges = prevGraph.edges.filter(edge => {
-  //       for (let i = 0; i < nodeData.edges.length; i++) {
-  //         if (nodeData.edges[i] === edge.id) return false;
-  //       }
-
-  //       return true;
-  //     });
-  //     network.network.setData(newNodes, newEdges);
-  //     return { nodes: [...newNodes], edges: [...newEdges] };
-  //   });
-
-  //   const handleAddEdge = () => {
-
-  //   };
-  // };
-
   const handleEditNode = (nodeData, callback) => {
     if (!addTitleRef.current || !addGroupRef.current || !addResourceRef.current) {
       callback();
@@ -136,7 +120,8 @@ const Home = (props) => {
 
     const newNode = { ...nodeData, label: title, group: group, resource: resource };
     callback(newNode);
-    postNodeEdit(graph.id, 2, newNode.id + '', title, group, resource)
+    console.log(newNode.id);
+    postNodeEdit(graph.id, 2, newNode.id, title, resource, null)
       .then(() => { alert('SUCCESS'); })
       .catch(() => { alert('ERRIR'); });
   };
