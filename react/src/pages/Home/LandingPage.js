@@ -23,7 +23,7 @@ const LandingPage = () => {
         <Grid item xs="7" >
             <Paper  elevation={0} style={{background: '#f2ebdd'}}>
                 <CardHeader title={name ? name + '\'s Maps': 'Loading Maps'} titleTypographyProps={{variant:'h4' }}/>
-                <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
+                <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none', borderRadius:'7px'}}/>
                     {name ? <UserRoadmapsContent/> : <p> Please sign in or create an account</p>}
             </Paper>
         </Grid>
@@ -31,7 +31,7 @@ const LandingPage = () => {
         <Grid item xs="4">
             <Paper elevation={0} style={{background: '#f2ebdd'}}>
             <CardHeader title={'Explore'} titleTypographyProps={{variant:'h4' }}/>
-            <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
+            <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none', borderRadius:'7px'}}/>
                 <ExploreContent/>
             </Paper>
         </Grid>

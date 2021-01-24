@@ -25,7 +25,7 @@ const ProfilePage = () => {
                 <Grid item xs="6" >
                     <Paper  elevation={0} style={{background: '#f2ebdd'}}>
                     <CardHeader title={name ? name + '\'s Maps': 'Loading Maps'} titleTypographyProps={{variant:'h4' }}/>
-                    <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
+                    <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none', borderRadius:'7px'}}/>
                     <UserRoadmapsContent/>
                     </Paper>
                 </Grid>

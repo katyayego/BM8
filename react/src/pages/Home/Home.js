@@ -171,7 +171,7 @@ const Home = (props) => {
   return (
     <Box m={2}>
       <CardHeader title='Purdue University MA 162' titleTypographyProps={{variant:'h4' }}/>
-      <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
+      <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none', borderRadius:'7px'}}/>
       <Grid container spacing={2} justify='center' alignItems='stretch' direction='row'>
         <Grid item xs='4'>
           <Box my={1} boxShadow={4}>
