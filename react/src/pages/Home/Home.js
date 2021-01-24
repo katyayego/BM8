@@ -11,6 +11,8 @@ import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
 import { getMap, postNode, postNodeDelete, postNodeEdit } from '../../api';
 
+import { withRouter } from 'react-router';
+
 const useStyles = makeStyles((theme) => ({
   modal: {
     display: 'flex',
@@ -29,8 +31,15 @@ const Home = (props) => {
   const classes = useStyles();
 
   const { id } = props.match.params;
+  console.log(props.match.params);
   const [network, setNetwork] = useState();
-  const [graph, setGraph] = useState();
+  const [graph, setGraph] = useState({
+    id: id,
+    title: 'No Title',
+    desc: 'No Desc',
+    nodes: [],
+    edges: []
+  });
 
   const [selectedNode, setSelectedNode] = useState();
 
@@ -39,8 +48,9 @@ const Home = (props) => {
   const addGroupRef = useRef();
 
   useEffect(() => {
-    const graph = getMap(id).then((res) => {
+    const graph = getMap(id, null, null, null).then((res) => {
       const mapObj = res.maps[0];
+      if (!mapObj) return;
       const newGraph = {
         id: mapObj.id,
         title: mapObj.title,
@@ -126,7 +136,9 @@ const Home = (props) => {
 
     const newNode = { ...nodeData, label: title, group: group, resource: resource };
     callback(newNode);
-    postNodeEdit(graph.id, 2, nodeData.id, title, group, resource);
+    postNodeEdit(graph.id, 2, newNode.id + '', title, group, resource)
+      .then(() => { alert('SUCCESS'); })
+      .catch(() => { alert('ERRIR'); });
   };
 
   const options = {
@@ -137,10 +149,9 @@ const Home = (props) => {
       enabled: true,
       addNode: handleAddNode,
       deleteNode: (nodeData, callback) => {
+        console.log(nodeData.nodes);
         callback(nodeData);
-        postNodeDelete(graph.id, 2, nodeData.id)
-          .then(() => { alert('SUCEESS'); })
-          .catch(() => { alert('ERROR'); });
+        postNodeDelete(graph.id, 2, nodeData.nodes[0]);
       },
       editNode: handleEditNode,
       deleteEdge: (edgeData, callback) => {
@@ -231,4 +242,4 @@ const Home = (props) => {
   );
 };
 
-export default Home;
+export default withRouter(Home);
