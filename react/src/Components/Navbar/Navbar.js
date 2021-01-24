@@ -87,7 +87,7 @@ const Navbar = () => {
 
   const handleSearch = (event) => {
     event.preventDefault();
-    history.push(`/searchPage?value=${searchValue}`)
+    history.push(`/searchPage/${searchValue}`)
     window.location.reload();
   }
 
