@@ -1,4 +1,4 @@
-# BM8
+# BM8 Project: Roadtrip
 
 ## Inspiration
 By 2025 the worldwide e-learning market is projected to be worth $325 billion. However we firmly believe that modern applications are not ready to support this kind of growth.
