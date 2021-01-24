@@ -7,14 +7,15 @@ import MapCard from './MapCard';
 const SearchContent = (props) => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
+//   console.log(params.get('value'));
 
   // Request maps with params.get('value')
 
   const [map, setMaps] = useState([]);
-  // console.log(props.match)
+  console.log(props.match.params.value)
 
   useEffect(() => {
-    const mapData = getMap(null, null, params.get('value'), null);
+    const mapData = getMap(null, null, props.match.params.value, null);
     mapData.then((maps) => {
       setMaps(maps.maps);
 
