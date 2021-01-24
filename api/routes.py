@@ -130,9 +130,10 @@ def map_add_node():
 
         for e in edges:
             edge = {
-                'id'  : uuid.uuid1(),
-                'from': e,
-                'to'  : node['id']
+                'id'   : uuid.uuid1(),
+                'from' : e,
+                'to'   : node['id'],
+                'value': 1
             }
             map['edges'].append(edge)
         map = json.dumps(map)
@@ -176,9 +177,10 @@ def map_edit_node():
 
             for e in edges:
                 edge = {
-                    'id'  : uuid.uuid1(),
-                    'from': e,
-                    'to'  : map['nodes'][node_idx]['id']
+                    'id'   : uuid.uuid1(),
+                    'from' : e,
+                    'to'   : map['nodes'][node_idx]['id'],
+                    'value': 1
                 }
                 map['edges'].append(edge)
         
