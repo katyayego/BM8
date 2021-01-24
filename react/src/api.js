@@ -198,6 +198,7 @@ async function postNodeDelete(mapId, userId, nodeId) {
     return data;
 }
 
+
 export {
     getUser,
     postUser,
@@ -206,5 +207,4 @@ export {
     postNode,
     postNodeEdit,
     postNodeDelete
-}
-    ;
+};
