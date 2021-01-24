@@ -27,7 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import json
-import random
+import uuid
 from datetime import datetime as dt
 
 from flask import current_app, g, render_template, request, send_file, jsonify
@@ -121,7 +121,7 @@ def map_add_node():
             }
         else:
             node = {
-                'id'   : random.randint(1,100000),
+                'id'   : uuid.uuid1(),
                 'label': label,
                 'group': group,
                 'res'  : res
@@ -130,7 +130,7 @@ def map_add_node():
 
         for e in edges:
             edge = {
-                'id'  : random.randint(1,100000),
+                'id'  : uuid.uuid1(),
                 'from': e,
                 'to'  : node['id']
             }
@@ -176,7 +176,7 @@ def map_edit_node():
 
             for e in edges:
                 edge = {
-                    'id'  : random.randint(1,100000),
+                    'id'  : uuid.uuid1(),
                     'from': e,
                     'to'  : map['nodes'][node_idx]['id']
                 }
