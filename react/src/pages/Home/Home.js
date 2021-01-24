@@ -81,8 +81,9 @@ const Home = (props) => {
             easingFunction: 'easeInOutQuad'
           }
         });
-      const selectedNode = graph.nodes.filter((node) => (node.id === nodeId));
-      setSelectedNode(selectedNode[0]);
+      const newSelectedNode = graph.nodes.filter((node) => (node.id === nodeId));
+      console.log(newSelectedNode[0]);
+      setSelectedNode(newSelectedNode[0]);
     }
   };
 
@@ -185,11 +186,6 @@ const Home = (props) => {
               <CardContent>
                 <Typography variant='h5'>Add Edge</Typography>
                 <Divider />
-                {/* <AddTab
-                  titleRef={addTitleRef}
-                  resourceRef={addResourceRef}
-                  groupRef={addGroupRef}
-                /> */}
                 <AddEdge
                   toRef={addToRef}
                   fromRef={addFromRef}
@@ -236,8 +232,8 @@ const Home = (props) => {
               >
                 <Fade in={selectedNode}>
                   <div className={classes.paper}>
-                    <h2 id='transition-modal-title'>Resources - {selectedNode.label}</h2>
-                    <p id='transition-modal-description'>{selectedNode.resource}</p>
+                    <h2 id='transition-modal-title'>Resources for: {selectedNode.label}</h2>
+                    <p id='transition-modal-description'>{selectedNode.res}</p>
                   </div>
                 </Fade>
               </Modal>
