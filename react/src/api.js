@@ -54,7 +54,7 @@ async function postUser (userName, fullName, pic, status) {
   let response;
   response = await fetch('http://localhost:5000/user', {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': 'null' },
     body: JSON.stringify(params)
   });
   const data = await response.json();
@@ -91,7 +91,7 @@ async function getMap (mapId, userId, title, limit) {
   // Replace link w actual server once deployed
   let response;
   response = await fetch('http://localhost:5000/map' + params, {
-    headers: { 'Access-Control-Allow-Origin': '*' }
+    headers: { 'Access-Control-Allow-Origin': 'null' }
   });
   const data = await response.json();
   return data;
@@ -115,7 +115,7 @@ async function postMap (userId, title, desc, map) {
   let response;
   response = await fetch('http://localhost:5000/map', {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': 'null' },
     body: JSON.stringify(params)
   });
   const data = await response.json();
@@ -142,7 +142,7 @@ async function postNode (mapId, userId, nodeId, label, res, edges) {
   let response;
   response = await fetch('http://localhost:5000/map/add_node', {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': 'null' },
     body: JSON.stringify(params)
   });
   const data = await response.json();
@@ -172,7 +172,7 @@ async function postNodeEdit (mapId, userId, nodeId, label, res, edges) {
   let response;
   response = await fetch('http://localhost:5000/map/edit_node', {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': 'null' },
     body: JSON.stringify(params)
   });
   const data = await response.json();
@@ -190,7 +190,7 @@ async function postNodeDelete (mapId, userId, nodeId) {
   let response;
   response = await fetch('http://localhost:5000/map/delete_node', {
     method: 'POST',
-    headers: { 'content-type': 'application/json' },
+    headers: { 'content-type': 'application/json', 'Access-Control-Allow-Origin': 'null' },
     body: JSON.stringify(params)
   });
   const data = await response.json();

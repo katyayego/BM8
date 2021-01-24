@@ -9,6 +9,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
+import { getMap, postNode, postNodeDelete, postNodeEdit } from '../../api';
 
 const useStyles = makeStyles((theme) => ({
   modal: {
@@ -38,20 +39,16 @@ const Home = (props) => {
   const addGroupRef = useRef();
 
   useEffect(() => {
-    setGraph({
-      nodes: [
-        { id: 1, label: 'Node 1', group: 0, resource: 'www.idk1.com' },
-        { id: 2, label: 'Node 2', group: 0, resource: 'www.idk2.com' },
-        { id: 3, label: 'Node 3', group: 0, resource: 'www.idk3.com' },
-        { id: 4, label: 'Node 4', group: 0, resource: 'www.idk4.com' },
-        { id: 5, label: 'Node 5', group: 0, resource: 'www.idk5.com' }
-      ],
-      edges: [
-        { from: 1, to: 2 },
-        { from: 1, to: 3 },
-        { from: 2, to: 4 },
-        { from: 2, to: 5 }
-      ]
+    const graph = getMap(id).then((res) => {
+      const mapObj = res.maps[0];
+      const newGraph = {
+        id: mapObj.id,
+        title: mapObj.title,
+        desc: mapObj.desc,
+        nodes: mapObj.map.nodes,
+        edges: mapObj.map.edges
+      };
+      setGraph(newGraph);
     });
   }, []);
 
@@ -95,10 +92,8 @@ const Home = (props) => {
     const resource = addResourceRef.current.value;
 
     const newNode = { ...nodeData, label: title, group: group, resource: resource };
-    setGraph((prevGraph) => ({
-      nodes: [...prevGraph.nodes, newNode],
-      edges: [...prevGraph.edges]
-    }));
+    callback(newNode);
+    postNode(graph.id, 2, newNode.id, newNode.label, newNode.resource, null);
   };
 
   // const handleDeleteNode = (nodeData, callback) => {
@@ -131,6 +126,7 @@ const Home = (props) => {
 
     const newNode = { ...nodeData, label: title, group: group, resource: resource };
     callback(newNode);
+    postNodeEdit(graph.id, 2, nodeData.id, title, group, resource);
   };
 
   const options = {
@@ -140,9 +136,16 @@ const Home = (props) => {
     manipulation: {
       enabled: true,
       addNode: handleAddNode,
-      deleteNode: (nodeData, callback) => { callback(nodeData); },
+      deleteNode: (nodeData, callback) => {
+        callback(nodeData);
+        postNodeDelete(graph.id, 2, nodeData.id)
+          .then(() => { alert('SUCEESS'); })
+          .catch(() => { alert('ERROR'); });
+      },
       editNode: handleEditNode,
-      deleteEdge: (edgeData, callback) => { callback(edgeData); }
+      deleteEdge: (edgeData, callback) => {
+        callback(edgeData);
+      }
     },
     edges: {
       color: '#000000'
