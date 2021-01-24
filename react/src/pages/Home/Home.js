@@ -5,7 +5,8 @@ import { Grid, Box, Card, CardHeader, Button } from '@material-ui/core';
 import Graph from 'react-graph-vis';
 import AddTab from './Components/controlTabs/AddTab';
 
-const Home = () => {
+const Home = (props) => {
+  const {id} = props.match.params;
   const [network, setNetwork] = useState();
   const [graph, setGraph] = useState();
 
@@ -140,15 +141,11 @@ const Home = () => {
 
   return (
     <Box m={2}>
-      <Grid container spacing={3} direction='column' alignItems='stretch'>
-        <Grid item md='12'>
           <Card>
             <CardHeader title='Purdue University MA 162' />
-          </Card>
-        </Grid>
-      </Grid>
-      <Grid container spacing={3} justify='center' alignItems='stretch' direction='row'>
-        <Grid item md='3'>
+         
+      <Grid container spacing={2} justify='center' alignItems='stretch' direction='row'>
+        <Grid item xs='4'>
           <Card>
             <CardHeader title='Topics' />
             {graph
@@ -182,7 +179,7 @@ const Home = () => {
             : null} */}
 
         </Grid>
-        <Grid item md='8'>
+        <Grid item xs='8'>
           <Card style={{ paddingBottom: '50px' }}>
             <CardHeader title='Roadmap' />
             {graph
@@ -196,6 +193,7 @@ const Home = () => {
           </Card>
         </Grid>
       </Grid>
+      </Card>
     </Box>
   );
 };

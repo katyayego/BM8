@@ -11,6 +11,7 @@ import SearchIcon from '@material-ui/icons/Search';
 import AccountCircle from '@material-ui/icons/AccountCircle';
 import AcUnitIcon from '@material-ui/icons/AcUnit';
 import { Button } from '@material-ui/core';
+import { useHistory, Link } from 'react-router-dom'
 
 const useStyles = makeStyles((theme) => ({
   grow: {
@@ -69,7 +70,9 @@ const useStyles = makeStyles((theme) => ({
 
 const Navbar = () => {
   const classes = useStyles();
+  const history = useHistory();
   const [anchorEl, setAnchorEl] = React.useState(null);
+  const [searchValue, setSearchValue] = React.useState("");
 
   const isMenuOpen = Boolean(anchorEl);
 
@@ -80,6 +83,11 @@ const Navbar = () => {
   const handleMenuClose = () => {
     setAnchorEl(null);
   };
+
+  const handleSearch = (event) => {
+    event.preventDefault();
+    history.push(`/searchPage?value=${searchValue}`)
+  }
 
   const menuId = 'primary-search-account-menu';
   const renderMenu = (
@@ -92,8 +100,11 @@ const Navbar = () => {
       open={isMenuOpen}
       onClose={handleMenuClose}
     >
-      <MenuItem onClick={handleMenuClose}>Profile</MenuItem>
-      <MenuItem onClick={handleMenuClose}>My account</MenuItem>
+      <Link to='/profilePage' style={{ textDecoration: 'none' }}>
+        <MenuItem onClick={handleMenuClose} style={{ color: 'black' }}>Profile</MenuItem>
+      </Link>
+      {/* <MenuItem onClick={handleMenuClose}>My account</MenuItem> */}
+
     </Menu>
   );
 
@@ -101,24 +112,29 @@ const Navbar = () => {
     <div className={classes.grow}>
       <AppBar position='static'>
         <Toolbar>
-          <IconButton aria-label='show 4 new mails' color='inherit'>
-            <AcUnitIcon />
-          </IconButton>
+          <Link to='/' style={{ textDecoration: 'none', color: "inherit" }}>
+            <IconButton color='inherit'>
+              <AcUnitIcon />
+            </IconButton>
+          </Link>
           <Typography className={classes.title} variant='h6' noWrap>
             Cool-Name
           </Typography>
           <div className={classes.search}>
-            <div className={classes.searchIcon}>
-              <SearchIcon />
-            </div>
-            <InputBase
-              placeholder='Search…'
-              classes={{
-                root: classes.inputRoot,
-                input: classes.inputInput
-              }}
-              inputProps={{ 'aria-label': 'search' }}
-            />
+            <form onSubmit={handleSearch}>
+              <div className={classes.searchIcon}>
+                <SearchIcon />
+              </div>
+              <InputBase
+                placeholder='Search…'
+                classes={{
+                  root: classes.inputRoot,
+                  input: classes.inputInput
+                }}
+                inputProps={{ 'aria-label': 'search' }}
+                onChange={e => setSearchValue(e.target.value)}
+              />
+            </form>
           </div>
           <div className={classes.grow} />
           <div className={classes.sectionDesktop}>
