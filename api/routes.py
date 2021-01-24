@@ -27,7 +27,7 @@ OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
 """
 
 import json
-import random
+import uuid
 from datetime import datetime as dt
 
 from flask import current_app, g, render_template, request, send_file, jsonify
@@ -105,6 +105,7 @@ def map_add_node():
         user_id = req['user']
         label = req['label']
         res = req['res']
+        group = req['group']
         edges = []
         if 'edges' in req:
             edges = req['edges']
@@ -115,19 +116,21 @@ def map_add_node():
             node = {
                 'id'   : req['node'],
                 'label': label,
+                'group': group,
                 'res'  : res
             }
         else:
             node = {
-                'id'   : random.randint(0, 100000),
+                'id'   : uuid.uuid1(),
                 'label': label,
+                'group': group,
                 'res'  : res
             }
         map['nodes'].append(node)
 
         for e in edges:
             edge = {
-                'id'  : random.randint(0, 100000),
+                'id'  : uuid.uuid1(),
                 'from': e,
                 'to'  : node['id']
             }
@@ -148,7 +151,7 @@ def map_edit_node():
 
         node_idx = 0
         for n in map['nodes']:
-            if node_idx == n['id']:
+            if node_id == n['id']:
                 break
             node_idx += 1
 
@@ -169,7 +172,7 @@ def map_edit_node():
 
             for e in edges:
                 edge = {
-                    'id'  : len(map['edges']),
+                    'id'  : uuid.uuid1(),
                     'from': e,
                     'to'  : node['id']
                 }
@@ -189,7 +192,7 @@ def map_delete_node():
         map = json.loads(db.get_maps(map_id=map_id, limit=1)[0]['map'])
 
         for n in map['nodes']:
-            if n['id'] == node_id:
+            if node_id == n['id']:
                 map['nodes'].remove(n)
                 break
 

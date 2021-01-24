@@ -1,5 +1,5 @@
 import React from 'react';
-import { Grid, Card, Box, CardHeader } from '@material-ui/core'
+import { Grid, Card, Box, CardHeader, CardContent } from '@material-ui/core'
 import SearchContent from '../../Components/SearchContent';
 
 const SearchPage = () => {
@@ -9,7 +9,9 @@ const SearchPage = () => {
                 <Grid item xs="7" >
                     <Card>
                         <CardHeader title={'Results'} />
+                        <CardContent>
                         <SearchContent />
+                        </CardContent>
                     </Card>
                 </Grid>
             </Grid>
