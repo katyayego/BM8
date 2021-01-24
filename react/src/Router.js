@@ -36,7 +36,7 @@ const AppRouter = () => (
         />
         <Route
           exact
-          path='/searchPage'
+          path='/searchPage/:value'
           component={SearchPage}
         />
         <Route
