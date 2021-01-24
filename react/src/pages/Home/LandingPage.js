@@ -2,13 +2,13 @@ import React, {useEffect, useState} from 'react';
 import {Grid, Card, Box, CardHeader} from '@material-ui/core'
 import UserRoadmapsContent from '../../Components/UserRoadmapsContent';
 import ExploreContent from '../../Components/ExploreContent';
-import {getUserJson} from '../../getJson';
+import {getUser} from '../../api';
 
 const LandingPage = () => {
     const [name, setName] = useState(null);  
    
     useEffect(() => {
-        const userData = getUserJson(1);
+        const userData = getUser(1);
         userData.then((users) => {
             setName(users['users'][0].full_name);
             console.log(users['users'][0].full_name);

@@ -1,6 +1,6 @@
-import React, {useEffect, useState}from 'react';
+import React, {useEffect, useState} from 'react';
 import { Grid, Card, Box, CardContent } from '@material-ui/core'
-import {getMapJson} from '../getJson';
+import {getMap} from '../api';
 import MapCard from './MapCard';
 
 const UserRoadmapsContent = () => {
@@ -12,7 +12,7 @@ const UserRoadmapsContent = () => {
     const [map, setMaps] = useState([]);  
    
     useEffect(() => {
-        const mapData = getMapJson(null,1);
+        const mapData = getMap(null,1);
         mapData.then((maps) => {
             setMaps(maps['maps']);
             
