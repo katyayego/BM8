@@ -1,5 +1,5 @@
 import React, {useEffect, useState} from 'react';
-import { Grid, Card, CardHeader, Avatar, CardContent, Paper } from '@material-ui/core'
+import { Grid, Box, CardHeader, Avatar, CardContent, Paper, Divider, Typography } from '@material-ui/core'
 import remy from "../images/hamster.png";
 import {getUser} from '../api';
 
@@ -18,11 +18,23 @@ const UserProfileContent = () => {
     return (
         <Grid container direction="column" alignItems="stretch" spacing={2}>
             {/* replace hamster pic w base64 image once its added to JSON */}
-            <Avatar alt={name ? name : "Loading Name"} src={remy} style={{ height: '150px', width: '150px' }} />
+            
             <Grid item>
-                <Paper elevation = {0} >
-                    <CardHeader title={name ? name : "Loading Name"} />
+                <Paper elevation = {0} style={{background:'#f2ebdd'}}>
+                    
+                    <Grid container>
+                    <Grid item xs={3}/>
+                    <Grid item xs={6}>
+                    <Box mt={3}>
+                        <Avatar alt={name ? name : "Loading Name"} src={remy} style={{ height: '150px', width: '150px' }} />
+                        </Box>
+                        </Grid>
+                        <Grid item xs={3}/>
+                    </Grid>
+                    
                     <CardContent>
+                    <Typography variant="h5">{name ? name : "Loading Name"}</Typography>
+                <Divider/>
                     <p>{status ? status : "Loading Status"}</p>
                     </CardContent>
                 </Paper>

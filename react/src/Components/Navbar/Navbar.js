@@ -118,7 +118,7 @@ const Navbar = () => {
             </IconButton>
           </Link>
           <Typography className={classes.title} variant='h6' noWrap color="secondary">
-            Cool-Name
+            RoadTrip
           </Typography>
           <div className={classes.search}>
             <form onSubmit={handleSearch}>

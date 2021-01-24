@@ -19,15 +19,17 @@ const LandingPage = () => {
     <Box m={2} >
         <Grid container spacing={2}>
         <Grid item xs="7" >
-            <Paper  elevation={0} style={{background: "#b0c77e"}}>
-                <CardHeader title={name ? name + '\'s Roadmaps': 'My Roadmaps'}/>
+            <Paper  elevation={0} style={{background: '#f2ebdd'}}>
+                <CardHeader title={name ? name + '\'s Maps': 'Loading Maps'} titleTypographyProps={{variant:'h4' }}/>
+                <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
                     <UserRoadmapsContent/>
             </Paper>
         </Grid>
         <Divider orientation="vertical" flexItem varient = "inset"/>
         <Grid item xs="4">
-            <Paper elevation={0} style={{background: "#b0c77e"}}>
-            <CardHeader title={'Explore'}/>
+            <Paper elevation={0} style={{background: '#f2ebdd'}}>
+            <CardHeader title={'Explore'} titleTypographyProps={{variant:'h4' }}/>
+            <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
                 <ExploreContent/>
             </Paper>
         </Grid>
