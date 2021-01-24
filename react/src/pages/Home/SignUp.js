@@ -61,7 +61,6 @@ export default function SignUp() {
     const last = lastNameRef.current.value;
     postUser(username, first + " " + last)
     window.location = "/";
-   // ..code to submit form to backend here...
 }
 
 
