@@ -18,7 +18,7 @@ function Copyright() {
         <Typography variant="body2" color="textSecondary" align="center">
             {'Copyright © '}
             <Link color="inherit" href="/">
-                StudyTrail
+             RoadTrip
       </Link>{' '}
             {new Date().getFullYear()}
             {'.'}
@@ -65,7 +65,6 @@ export default function SignUp() {
     //     const last = lastNameRef.current.value;
     //     postUser(username, first + " " + last)
 
-    //    // ..code to submit form to backend here...
     // }
 
     async function handleSubmit(event) {

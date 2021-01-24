@@ -26,16 +26,16 @@ const UserProfileContent = () => {
             <Grid item xs={3} />
             <Grid item xs={6}>
               <Box mt={3}>
-                <Avatar alt={name || "Loading Name"} src={remy} style={{ height: '150px', width: '150px' }} />
+                <Avatar alt={name || 'Loading Name'} src={remy} style={{ height: '150px', width: '150px' }} />
               </Box>
             </Grid>
             <Grid item xs={3} />
           </Grid>
 
           <CardContent>
-            <Typography variant='h5'>{name || "Loading Name"}</Typography>
+            <Typography variant='h5'>{name || 'Loading Name'}</Typography>
             <Divider />
-            <p>{status || "Loading Status"}</p>
+            <p>{status || 'Loading Status'}</p>
           </CardContent>
         </Paper>
       </Grid>

@@ -6,11 +6,11 @@ class MapCard extends React.Component {
     
     render() {
         console.log(this.props.name);
-        const link = '/mapPage?id=' + this.props.id
+        const link = '/mapPage/' + this.props.id
         return (
         <Link to={link} style={{textDecoration: 'none'}}>
             <Box boxShadow={2}>
-        <Card style={{backgroundColor:'#f2ebdd'}} >
+        <Card style={{backgroundColor:'#e5d3b3'}} >
         <CardContent> 
             <Typography variant="h5">{this.props.name}</Typography>
                 <Divider/>

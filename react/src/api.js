@@ -103,7 +103,7 @@ async function getMap (mapId, userId, title, limit) {
 
 async function postMap (userId, title, desc, map) {
   const params = {
-    userId: userId,
+    user: userId,
     title: title
   };
 
@@ -122,13 +122,12 @@ async function postMap (userId, title, desc, map) {
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(params)
   });
+  console.log('FINISHED');
   const data = await response.json();
   return data;
 }
 
-async function postNode (mapId, userId, nodeId, label, res, group, edges) {
-  console.log('POSTNODE');
-
+async function postNode (mapId, userId, nodeId, label, res, group) {
   const params = {
     id: mapId,
     user: userId,
@@ -141,10 +140,6 @@ async function postNode (mapId, userId, nodeId, label, res, group, edges) {
     params.node = nodeId;
   }
 
-  if (edges != null) {
-    params.edges = edges;
-  }
-
   // Replace link w actual server once deployed
   let response;
   response = await fetch('http://localhost:5000/map/add_node', {
@@ -152,15 +147,11 @@ async function postNode (mapId, userId, nodeId, label, res, group, edges) {
     headers: { 'content-type': 'application/json' },
     body: JSON.stringify(params)
   });
-  const data = await response.json().then((value) => {
-    console.log(value);
-    return value;
-  });
+  const data = await response.json();
   return data;
 }
 
-async function postNodeEdit (mapId, userId, nodeId, label, res, edges) {
-  console.log('POSTNODEEDIT');
+async function postNodeEdit (mapId, userId, nodeId, label, res) {
   const params = {
     id: mapId,
     user: userId,
@@ -173,10 +164,6 @@ async function postNodeEdit (mapId, userId, nodeId, label, res, edges) {
 
   if (res != null) {
     params.res = res;
-  }
-
-  if (edges != null) {
-    params.edges = edges;
   }
 
   // Replace link w actual server once deployed
@@ -208,6 +195,25 @@ async function postNodeDelete (mapId, userId, nodeId) {
   return data;
 }
 
+async function postEdge (mapId, userId, from, to) {
+  const params = {
+    id: mapId,
+    user: userId,
+    from: from,
+    to: to
+  };
+
+  // Replace link w actual server once deployed
+  let response;
+  response = await fetch('http://localhost:5000/map/add_edge', {
+    method: 'POST',
+    headers: { 'content-type': 'application/json' },
+    body: JSON.stringify(params)
+  });
+  const data = await response.json();
+  return data;
+}
+
 export {
   getUser,
   postUser,
@@ -215,5 +221,6 @@ export {
   postMap,
   postNode,
   postNodeEdit,
-  postNodeDelete
+  postNodeDelete,
+  postEdge
 };

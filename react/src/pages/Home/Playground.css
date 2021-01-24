@@ -1,0 +1,13 @@
+.vis-network {
+  overflow: visible !important;
+}
+
+.vis-manipulation {
+  display: flex !important;
+  justify-content: flex-start !important;
+}
+
+.vis-manipulation>div {
+  margin: 0 10px;
+  cursor: pointer;
+}

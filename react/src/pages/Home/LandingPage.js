@@ -8,9 +8,9 @@ const LandingPage = () => {
     const [name, setName] = useState(null);  
    
     useEffect(() => {
-        const userData = getUser(1);
+        const userData = getUser(2);
         userData.then((users) => {
-            if(users['users'].size > 0) {
+            if(users['users'].length > 0) {
             setName(users['users'][0].full_name);
             console.log(users['users'][0].full_name);
             }
@@ -23,7 +23,7 @@ const LandingPage = () => {
         <Grid item xs="7" >
             <Paper  elevation={0} style={{background: '#f2ebdd'}}>
                 <CardHeader title={name ? name + '\'s Maps': 'Loading Maps'} titleTypographyProps={{variant:'h4' }}/>
-                <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
+                <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none', borderRadius:'7px'}}/>
                     {name ? <UserRoadmapsContent/> : <p> Please sign in or create an account</p>}
             </Paper>
         </Grid>
@@ -31,8 +31,8 @@ const LandingPage = () => {
         <Grid item xs="4">
             <Paper elevation={0} style={{background: '#f2ebdd'}}>
             <CardHeader title={'Explore'} titleTypographyProps={{variant:'h4' }}/>
-            <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
-                {/* <ExploreContent/> */}
+            <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none', borderRadius:'7px'}}/>
+                <ExploreContent/>
             </Paper>
         </Grid>
         </Grid>

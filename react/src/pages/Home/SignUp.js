@@ -18,7 +18,7 @@ function Copyright() {
     <Typography variant="body2" color="textSecondary" align="center">
       {'Copyright © '}
       <Link color="inherit" href="/"> 
-        StudyTrail
+        RoadTrip
       </Link>{' '}
       {new Date().getFullYear()}
       {'.'}
@@ -51,6 +51,7 @@ export default function SignUp() {
   const usernameRef = useRef();
   const firstNameRef = useRef();
   const lastNameRef = useRef();
+  const statusRef = useRef();
   
   const classes = useStyles();
 
@@ -59,9 +60,9 @@ export default function SignUp() {
     const username = usernameRef.current.value;
     const first = firstNameRef.current.value;
     const last = lastNameRef.current.value;
-    postUser(username, first + " " + last)
+    const status = statusRef.current.value;
+    postUser(username, first + " " + last, status)
     window.location = "/";
-   // ..code to submit form to backend here...
 }
 
 
@@ -110,6 +111,17 @@ export default function SignUp() {
                 label="Username"
                 inputRef={usernameRef}
                 name="username"
+              />
+            </Grid>
+            <Grid item xs={12}>
+              <TextField
+                variant="outlined"
+                required
+                fullWidth
+                id="bio"
+                label="Bio"
+                inputRef={statusRef}
+                name="bio"
               />
             </Grid>
             <Grid item xs={12}>

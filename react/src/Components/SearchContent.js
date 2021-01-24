@@ -4,15 +4,14 @@ import { useLocation, withRouter } from 'react-router-dom';
 import { getMap } from '../api';
 import MapCard from './MapCard';
 
-const SearchContent = props => {
+const SearchContent = (props) => {
   const location = useLocation();
   const params = new URLSearchParams(location.search);
-
-  console.log(props.match);
 
   // Request maps with params.get('value')
 
   const [map, setMaps] = useState([]);
+  // console.log(props.match)
 
   useEffect(() => {
     const mapData = getMap(null, null, params.get('value'), null);
@@ -22,22 +21,18 @@ const SearchContent = props => {
       console.log(maps);
     });
   }, []);
-  console.log(map);
-  // {map.length > 0 ? map.map((userMap) => {
-  //   // console.log(userMap)
-  //   return (
-  //     <Grid item xs={4}>
-  //       <MapCard id={userMap.id} name={userMap.title} description={userMap.desc} />
-  //     </Grid>
-  //   );
-  // }) : <p>No results</p>}
-
   return (
 
     <Box m={2}>
       <Grid container spacing={2}>
-        <p>{}</p>
-
+        {map.length > 0 ? map.map((userMap) => {
+          // console.log(userMap)
+          return (
+            <Grid item xs={4}>
+              <MapCard id={userMap.id} name={userMap.title} description={userMap.desc} />
+            </Grid>
+          );
+        }) : <p>No results</p>}
       </Grid>
     </Box>
   );

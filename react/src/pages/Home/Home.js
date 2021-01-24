@@ -10,7 +10,7 @@ import Modal from '@material-ui/core/Modal';
 import Backdrop from '@material-ui/core/Backdrop';
 import Fade from '@material-ui/core/Fade';
 import { makeStyles } from '@material-ui/core/styles';
-import { getMap, postNode, postNodeDelete, postNodeEdit } from '../../api';
+import { getMap, postNode, postNodeDelete, postNodeEdit, postEdge } from '../../api';
 
 import { withRouter } from 'react-router';
 import AddEdge from './Components/controlTabs/AddEdge';
@@ -155,14 +155,14 @@ const Home = (props) => {
 
   return (
     <Box m={2}>
-      <CardHeader title='Purdue University MA 162' titleTypographyProps={{ variant: 'h4' }} />
+      <CardHeader title={graph ? graph.title : 'Loading...'} titleTypographyProps={{ variant: 'h4' }} />
       <hr style={{ height: '15px', backgroundColor: '#b0c77e', border: 'none' }} />
       <Grid container spacing={2} justify='center' alignItems='stretch' direction='row'>
         <Grid item xs='4'>
-          <Box my={1} boxShadow={4}>
+          <Box mb={1} boxShadow={4}>
             <Card style={{ backgroundColor: '#f2ebdd' }}>
               <CardContent>
-                <Typography variant='h5'>Controls</Typography>
+                <Typography variant='h5'>Add Node</Typography>
                 <Divider />
                 {/* <AddTab
                   titleRef={addTitleRef}
@@ -175,7 +175,7 @@ const Home = (props) => {
                   groupRef={addGroupRef}
                   handleSubmit={(e) => {
                     e.preventDefault();
-                    postNode(graph.id, 2, null, addTitleRef.current.value, addResourceRef.current.value, null);
+                    postNode(graph.id, 2, null, addTitleRef.current.value, addResourceRef.current.value, addGroupRef.current.value);
                     window.location.reload();
                   }}
                 />
@@ -183,7 +183,7 @@ const Home = (props) => {
             </Card>
             <Card style={{ backgroundColor: '#f2ebdd' }}>
               <CardContent>
-                <Typography variant='h5'>Home</Typography>
+                <Typography variant='h5'>Add Edge</Typography>
                 <Divider />
                 {/* <AddTab
                   titleRef={addTitleRef}
@@ -197,17 +197,18 @@ const Home = (props) => {
                     e.preventDefault();
                     const toLabel = addToRef.current.value;
                     const fromLabel = addFromRef.current.value;
-                    const toId = graph.nodes.filter(node => node.label === toLabel);
-                    const fromId = graph.nodes.filter(node => node.label === fromLabel);
-                    console.log(toId, fromId);
-                    // window.location.reload();
+                    const toId = graph.nodes.filter(node => node.label === toLabel)[0];
+                    const fromId = graph.nodes.filter(node => node.label === fromLabel)[0];
+                    console.log(toId.id, toId.id);
+                    postEdge(graph.id, 2, fromId.id, toId.id);
+                    window.location.reload();
                   }}
                 />
               </CardContent>
             </Card>
           </Box>
           <Box my={1} boxShadow={4}>
-            <Card style={{ backgroundColor: '#f2ebdd' }}>
+            <Card style={{ backgroundColor: '#e5d3b3' }}>
               <CardContent>
                 <Typography variant='h5'>Topics</Typography>
                 <Divider />
