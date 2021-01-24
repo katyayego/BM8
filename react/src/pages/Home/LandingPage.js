@@ -8,7 +8,7 @@ const LandingPage = () => {
     const [name, setName] = useState(null);  
    
     useEffect(() => {
-        const userData = getUser(2);
+        const userData = getUser(1);
         userData.then((users) => {
             if(users['users'].length > 0) {
             setName(users['users'][0].full_name);

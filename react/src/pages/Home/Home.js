@@ -161,7 +161,7 @@ const Home = (props) => {
       <Grid container spacing={2} justify='center' alignItems='stretch' direction='row'>
         <Grid item xs='4'>
           <Box mb={1} boxShadow={4}>
-            <Card style={{ backgroundColor: '#f2ebdd' }}>
+            <Card style={{ backgroundColor: '#e5d3b3' }}>
               <CardContent>
                 <Typography variant='h5'>Add Node</Typography>
                 <Divider />
@@ -182,7 +182,7 @@ const Home = (props) => {
                 />
               </CardContent>
             </Card>
-            <Card style={{ backgroundColor: '#f2ebdd' }}>
+            <Card style={{ backgroundColor: '#e5d3b3' }}>
               <CardContent>
                 <Typography variant='h5'>Add Edge</Typography>
                 <Divider />
@@ -243,7 +243,7 @@ const Home = (props) => {
         </Grid>
         <Grid item xs='8'>
           <Box boxShadow={4}>
-            <Card style={{ paddingBottom: '40px', backgroundColor: '#f2ebdd' }}>
+            <Card style={{ paddingBottom: '40px', backgroundColor: '#e5d3b3'  }}>
               <CardContent><Typography variant='h5'>Map</Typography>
                 <Divider />
                 {graph
