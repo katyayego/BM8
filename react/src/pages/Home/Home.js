@@ -1,7 +1,7 @@
 import './Home.css';
 import React, { useState, useEffect, useRef } from 'react';
 
-import { Grid, Box, Card, CardHeader, Button, CardContent } from '@material-ui/core';
+import { Grid, Box, Card, CardHeader, Button, CardContent, Divider, Typography } from '@material-ui/core';
 import Graph from 'react-graph-vis';
 import AddTab from './Components/controlTabs/AddTab';
 
@@ -155,14 +155,15 @@ const Home = (props) => {
 
   return (
     <Box m={2}>
-      <CardHeader title='Purdue University MA 162' />
-
+      <CardHeader title='Purdue University MA 162' titleTypographyProps={{variant:'h4' }}/>
+      <hr style={{height:"15px", backgroundColor:"#b0c77e", border:'none'}}/>
       <Grid container spacing={2} justify='center' alignItems='stretch' direction='row'>
         <Grid item xs='4'>
-          <Box my={1}>
-            <Card>
-              <CardHeader title='Controls' />
+          <Box my={1} boxShadow={4}>
+            <Card style={{backgroundColor:'#f2ebdd'}}>
               <CardContent>
+              <Typography variant="h5">Controls</Typography>
+                <Divider/>
                 <AddTab
                   titleRef={addTitleRef}
                   resourceRef={addResourceRef}
@@ -171,10 +172,11 @@ const Home = (props) => {
               </CardContent>
             </Card>
           </Box>
-          <Box my={1}>
-            <Card>
-              <CardHeader title='Topics' />
+          <Box my={1} boxShadow={4}>
+            <Card style={{backgroundColor:'#f2ebdd'}}>
               <CardContent>
+              <Typography variant="h5">Topics</Typography>
+                <Divider/>
                 {graph
                   ? graph.nodes.map((node) => (
                     <p key={node.id} style={{ cursor: 'pointer' }} onClick={() => handleTopicClick(node.id)}>{node.label}</p>
@@ -210,8 +212,10 @@ const Home = (props) => {
 
         </Grid>
         <Grid item xs='8'>
-          <Card style={{ paddingBottom: '40px' }}>
-            <CardHeader title='Roadmap' />
+          <Box boxShadow={4}>
+          <Card style={{ paddingBottom: '40px', backgroundColor:'#f2ebdd' }}>
+            <CardContent><Typography variant="h5">Map</Typography>
+                <Divider/>
             {graph
               ? <Graph
                   graph={graph}
@@ -220,7 +224,9 @@ const Home = (props) => {
                   getNetwork={(net) => { setNetwork(net); }}
                 />
               : <p>Loading...</p>}
+              </CardContent>
           </Card>
+          </Box>
         </Grid>
       </Grid>
     </Box>
